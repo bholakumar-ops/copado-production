@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Status --></label>
+    <name>copado__Status__c</name>
+    <picklistValues>
+        <masterLabel>Decommissioning</masterLabel>
+        <translation>廃止</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ready</masterLabel>
+        <translation>準備完了</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Unauthorized</masterLabel>
+        <translation>未承認</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Unavailable</masterLabel>
+        <translation>利用不可</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Updating</masterLabel>
+        <translation>更新中</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Validating</masterLabel>
+        <translation>検証中</translation>
+    </picklistValues>
+</CustomFieldTranslation>

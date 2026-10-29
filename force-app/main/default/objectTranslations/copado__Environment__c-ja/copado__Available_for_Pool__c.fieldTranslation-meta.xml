@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>この環境を、環境プールに含める対象として指定します。有効にすると、この環境は「環境プール」管理アプリケーション内で選択可能になります。</help>
+    <label><!-- Available for Pool --></label>
+    <name>copado__Available_for_Pool__c</name>
+</CustomFieldTranslation>

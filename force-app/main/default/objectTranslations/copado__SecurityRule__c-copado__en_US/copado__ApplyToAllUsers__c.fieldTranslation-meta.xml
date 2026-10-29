@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- When selected, the rule applies to all users in the org. Do not populate User or Persona. --></help>
+    <label><!-- Apply to All Users --></label>
+    <name>copado__ApplyToAllUsers__c</name>
+</CustomFieldTranslation>

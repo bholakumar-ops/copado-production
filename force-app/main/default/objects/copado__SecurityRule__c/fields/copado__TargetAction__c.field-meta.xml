@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado__TargetAction__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Operation controlled by this rule. Values depend on Type.</description>
+    <inlineHelpText>Choose the action you want to enforce</inlineHelpText>
+    <label>Target Action</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>copado__Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Commit_AddWithSystemPermissions</fullName>
+                <default>false</default>
+                <label>Commit - Add(+ System Perm.)</label>
+            </value>
+            <value>
+                <fullName>Commit_Delete</fullName>
+                <default>false</default>
+                <label>Commit - Delete</label>
+            </value>
+            <value>
+                <fullName>Commit_Full</fullName>
+                <default>false</default>
+                <label>Commit - Full</label>
+            </value>
+            <value>
+                <fullName>Commit_Retrieve_Only</fullName>
+                <default>false</default>
+                <label>Commit - Retrieve only</label>
+            </value>
+            <value>
+                <fullName>Commit_Selective</fullName>
+                <default>false</default>
+                <label>Commit - Add (Selective)</label>
+            </value>
+            <value>
+                <fullName>Validate</fullName>
+                <default>false</default>
+                <label>Validate</label>
+            </value>
+            <value>
+                <fullName>Deploy</fullName>
+                <default>false</default>
+                <label>Deploy</label>
+            </value>
+            <value>
+                <fullName>Commit_Add</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Commit_Add</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Metadata</controllingFieldValue>
+            <valueName>Commit_AddWithSystemPermissions</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Metadata</controllingFieldValue>
+            <valueName>Commit_Delete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Metadata</controllingFieldValue>
+            <valueName>Commit_Full</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Metadata</controllingFieldValue>
+            <valueName>Commit_Retrieve_Only</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Metadata</controllingFieldValue>
+            <valueName>Commit_Selective</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Environment</controllingFieldValue>
+            <valueName>Validate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Environment</controllingFieldValue>
+            <valueName>Deploy</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

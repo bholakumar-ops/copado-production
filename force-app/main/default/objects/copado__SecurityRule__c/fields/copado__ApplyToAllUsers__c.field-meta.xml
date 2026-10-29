@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado__ApplyToAllUsers__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>When selected, the rule applies to all users in the org.</description>
+    <inlineHelpText>When selected, the rule applies to all users in the org. Do not populate User or Persona.</inlineHelpText>
+    <label>Apply to All Users</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

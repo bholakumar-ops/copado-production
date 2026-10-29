@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado__Pipeline__c</fullName>
+    <deleteConstraint>Cascade</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Optional pipeline scope. Blank means the rule applies org-wide for all pipelines. Deleting the pipeline deletes related Pipeline Governance Rules.</description>
+    <inlineHelpText>Choose a specific pipeline scope or leave blank to apply this rule in all Pipelines</inlineHelpText>
+    <label>Pipeline</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <filterItems>
+            <field>copado__Deployment_Flow__c.copado__Active__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>copado__Deployment_Flow__c.copado__Platform__c</field>
+            <operation>equals</operation>
+            <value>SFDX</value>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>copado__Deployment_Flow__c</referenceTo>
+    <relationshipLabel>Pipeline Governance Rules</relationshipLabel>
+    <relationshipName>Security_Rules</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

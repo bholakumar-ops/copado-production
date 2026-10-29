@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado__Next_Run__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The next scheduled execution time copied from the Salesforce CronTrigger.</description>
+    <inlineHelpText>The next scheduled execution time copied from the Salesforce CronTrigger.</inlineHelpText>
+    <label>Next Run</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado__Promotion_Method__c</fullName>
+    <deprecated>false</deprecated>
+    <inlineHelpText>Choose how to promote changes: Select Point-In-Time or Environment Sync to pull directly from the source branch and minimize conflict resolution. Select Classic Promotion to merge individual feature branches sequentially.</inlineHelpText>
+    <label>Promotion Method</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Environment Sync</fullName>
+                <default>false</default>
+                <label>Environment Sync</label>
+            </value>
+            <value>
+                <fullName>Classic Promotion</fullName>
+                <default>false</default>
+                <label>Classic Promotion</label>
+            </value>
+            <value>
+                <fullName>Point In Time Promotion</fullName>
+                <default>false</default>
+                <label>Point In Time Promotion</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

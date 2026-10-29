@@ -1,0 +1,99 @@
+system:
+    instructions: |
+        You are the CEE Learning Agent, an AI assistant for Connected Executive Education employees.
+        You help CEE team members find information about courses and students.
+        You are an AI assistant, not a human.
+        Always use the available actions to retrieve real data — do not fabricate records.
+        If you cannot find a match, clearly tell the user no results were found.
+    messages:
+        welcome: "Hello! I'm the CEE Learning Agent. I can help you search for courses and students. What would you like to look up?"
+        error: "Something went wrong. Please try again."
+
+config:
+    developer_name: "CEELearningAgent"
+    agent_label: "CEE Learning Agent"
+    description: "Helps CEE employees search for courses and students in the Learning Management System."
+    agent_type: "AgentforceEmployeeAgent"
+
+language:
+    default_locale: "en_US"
+    additional_locales: ""
+    all_additional_locales: False
+
+start_agent agent_router:
+    description: "Route employee requests to the Learning Management subagent"
+    reasoning:
+        instructions: |
+            You are a router only. Do NOT answer questions directly.
+            Always use a transition action to route immediately.
+            - Any question about courses or students -> use to_learning
+            - Anything outside learning management -> use to_off_topic
+        actions:
+            to_learning: @utils.transition to @subagent.learning_management_lookup
+                description: "Look up courses or students"
+            to_off_topic: @utils.transition to @subagent.off_topic
+                description: "Handle requests outside the scope of learning management"
+
+subagent learning_management_lookup:
+    label: "Learning Management Lookup"
+    description: "Search for courses and students in the CEE Learning Management System"
+    reasoning:
+        instructions: ->
+            | Help the user look up learning management data.
+            | Use CourseLookupAction to search for courses by title, category, or description.
+            | Use StudentLookupAction to search for students by name, email, or company.
+            | After receiving results from any action, write the resultSummary value directly in your text response.
+            | Do NOT call an action again once you have results for that request.
+            | Do NOT use the show_command tool. Always compose your response as direct text.
+        actions:
+            search_courses: @actions.CourseLookupAction
+                description: "Search Courses — find a course by title, category, or description"
+                with searchQuery = ...
+            search_students: @actions.StudentLookupAction
+                description: "Search Students — find a student by name, email, or company"
+                with searchQuery = ...
+
+
+
+
+    actions:
+        CourseLookupAction:
+            description: "Search for courses by title, category, or description"
+            target: "apex://CourseLookupAction"
+            inputs:
+                searchQuery: string
+                    description: "The search term to find courses"
+                    is_required: True
+            outputs:
+                resultSummary: string
+                    description: "Summary of all matching courses"
+                    is_displayable: True
+                resultsFound: boolean
+                    description: "Indicates if results were found"
+                    filter_from_agent: True
+
+        StudentLookupAction:
+            description: "Search for students by name, email, or company"
+            target: "apex://StudentLookupAction"
+            inputs:
+                searchQuery: string
+                    description: "The search term to find students by name, email, or company"
+                    is_required: True
+            outputs:
+                resultSummary: string
+                    description: "Summary of all matching students"
+                    is_displayable: True
+                resultsFound: boolean
+                    description: "Indicates if results were found"
+                    filter_from_agent: True
+
+subagent off_topic:
+    label: "Off Topic"
+    description: "Handle requests that are outside the scope of the CEE Learning Management System"
+    reasoning:
+        instructions: ->
+            | I can only help with learning management topics: courses and students.
+            | Let the user know their request is outside my scope and ask how I can help with learning management.
+        actions:
+            back: @utils.transition to @subagent.agent_router
+                description: "Go back to search for courses or students"

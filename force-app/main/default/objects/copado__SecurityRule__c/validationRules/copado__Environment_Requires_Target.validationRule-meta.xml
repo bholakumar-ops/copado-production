@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado__Environment_Requires_Target</fullName>
+    <active>true</active>
+    <description>Environment-type rules must specify a target environment.</description>
+    <errorConditionFormula>AND(
+  ISPICKVAL(copado__Type__c, &quot;Environment&quot;),
+  ISBLANK(copado__Environment__c)
+)</errorConditionFormula>
+    <errorDisplayField>copado__Environment__c</errorDisplayField>
+    <errorMessage>Environment is required when Type is Environment.</errorMessage>
+</ValidationRule>

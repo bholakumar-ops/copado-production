@@ -1,0 +1,1846 @@
+<template>
+    <div class="guide-container">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+        </template>
+
+        <template if:false={isLoading}>
+            <!-- Progress Indicator -->
+            <div class="progress-section">
+                <div class="custom-progress-path">
+                    <template for:each={stepsWithStatus} for:item="step">
+                        <button type="button" key={step.value} class={step.className} data-index={step.index}
+                            onclick={handleStepClick} aria-label={step.label}>
+                            <span class="step-marker">{step.number}</span>
+                            <span class="step-label">{step.label}</span>
+                        </button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Step Content -->
+            <div class="content-section">
+                <!-- Welcome -->
+                <template if:true={isWelcome}>
+                    <div class="step-content welcome-step">
+                        <div class="hero-section">
+                            <p class="hero-tagline">Innovate fast, deploy securely, and protect your data.</p>
+                        </div>
+                        <div class="platform-intro">
+                            <p>Welcome to your free trial! Get hands-on access to Salesforce development and
+                                security tools to build, customize, and deploy powerful agents and applications.</p>
+                            <p>Salesforce's built-in agent and application lifecycle management and governance tools
+                                help you build with confidence. Leverage the full power of Salesforce data and metadata;
+                                automate intelligent workflows; generate UI experiences with your preferred AI tools; manage
+                                deployments securely; and keep your org, data, and agents secure with enterprise-grade
+                                visibility.</p>
+                            <p class="trial-highlight">With this free trial, you get hands-on access to &nbsp;
+                                <strong>Setup with Agentforce</strong>, <strong>Agentforce Builder</strong>, <strong>Agentforce Testing Center</strong>, <strong>Metadata Deployment</strong>, <strong>Protect Your Data</strong>, and a fully functional custom AI application – giving you everything you need to innovate fast, deploy securely, and protect your data on Salesforce.
+
+                            </p>
+                            <p class="trial-highlight">Before you begin, you'll need to set up a <strong>Full Copy Sandbox</strong> as your development environment. All build activities in this guide — including Agentforce Builder, Testing, and Bring your own AI — should be completed inside the sandbox. When you're ready to go live, you'll deploy your changes from the sandbox back to your production org in the <strong>Deploy Securely</strong> section. Follow the detailed sandbox setup instructions at the beginning of the <strong>Agentforce Builder</strong> step.</p>
+                            <div class="react-setup-notice">
+                                <p class="react-setup-notice-title">⚙️ Want to explore React apps in this org? Enable the following settings first:</p>
+                                <ol class="react-setup-steps">
+                                    <li>
+                                        <strong>Enable Salesforce Multi-Framework</strong><br/>
+                                        Go to: <em>Setup → React Development with Salesforce Multi-Framework (Beta)</em><br/>
+                                        Turn on: <strong>Salesforce Multi-Framework → Enable Beta</strong>
+                                    </li>
+                                    <li>
+                                        <strong>Enable Digital Experiences</strong><br/>
+                                        Go to: <em>Setup → Digital Experiences → Settings</em><br/>
+                                        Turn on: <strong>Enable Digital Experiences</strong>
+                                    </li>
+                                    <li>
+                                        <strong>Enable Salesforce CMS MCP access</strong><br/>
+                                        Go to: <em>Setup → Digital Experiences → Salesforce CMS</em><br/>
+                                        Turn on: <strong>Access the Content Read-Only MCP Server and Tools (Beta)</strong>
+                                    </li>
+                                    <li>
+                                        <strong>Preview your React app in real-time</strong><br/>
+                                        Download the <a href="https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode-ui-preview" target="_blank" rel="noopener noreferrer">Salesforce UI Preview VS Code extension</a> to preview your React app directly in VS Code.
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="image-usecase-row">
+                            <div class="use-case-section">
+                                <div class="use-case-header">
+                                    <span class="use-case-icon">🎓</span>
+                                    <h2>Use Case: Connected Executive Education</h2>
+                                </div>
+                                <div class="use-case-content">
+                                    <p>Connected Executive Education (or CEE for short) is a fictitious company that
+                                        delivers executive training courses to individuals and businesses around the
+                                        world. CEE uses headless capabilities to streamline and modernize their
+                                        executive learning programs with intelligent agents and apps.</p>
+                                    <p>CEE built this custom application on Salesforce to manage courses, instructors,
+                                        students, and enrollments. Agentforce helps them automate their operations,
+                                        personalize and scale learner engagement, and unlock real-time insights.</p>
+                                    <p>When you're ready, move on to the next stage of your free trial by clicking the
+                                        buttons below, or at the top of the screen.</p>
+                                </div>
+                            </div>
+                            <div class="hero-image-container">
+                                <img src={trialHeroImage} alt="Headless 360 platform" class="hero-image" />
+                            </div>
+                        </div>
+
+                        <h3 class="section-title">What You Can Do Inside the Trial</h3>
+                        <div class="feature-cards">
+                            <div class="feature-card clickable" data-step="1" onclick={handleCardClick}>
+                                <lightning-icon icon-name="standard:apps" size="medium"></lightning-icon>
+                                <h3>Setup with Agentforce</h3>
+                                <p>A ready-to-use Learning Management AI app built entirely on Salesforce.</p>
+                                <span class="card-link">Explore →</span>
+                            </div>
+                            <div class="feature-card clickable" data-step="2" onclick={handleCardClick}>
+                                <lightning-icon icon-name="standard:bot" size="medium"></lightning-icon>
+                                <h3>Agentforce Builder</h3>
+                                <p>Configure your Agentforce. Set up agent actions and automate workflows.</p>
+                                <span class="card-link">Configure →</span>
+                            </div>
+                            <div class="feature-card clickable" data-step="3" onclick={handleCardClick}>
+                                <lightning-icon icon-name="standard:case" size="medium"></lightning-icon>
+                                <h3>Test Agentforce</h3>
+                                <p>Ensure Agentforce is ready to go live by testing it thoroughly with built-in tools.</p>
+                                <span class="card-link">Test →</span>
+                            </div>
+                            <div class="feature-card clickable" data-step="4" onclick={handleCardClick}>
+                                <lightning-icon icon-name="standard:connected_apps" size="medium"></lightning-icon>
+                                <h3>Bring Your Own AI Tools</h3>
+                                <p>Use your preferred AI assistant to build on Salesforce.</p>
+                                <span class="card-link">Connect →</span>
+                            </div>
+                            <div class="feature-card clickable" data-step="5" onclick={handleCardClick}>
+                                <lightning-icon icon-name="utility:upload" size="medium"></lightning-icon>
+                                <h3>Deploy Securely</h3>
+                                <p>Deploy seamlessly with built-in metadata tools.</p>
+                                <span class="card-link">Deploy →</span>
+                            </div>
+                            <div class="feature-card clickable" data-step="6" onclick={handleCardClick}>
+                                <lightning-icon icon-name="standard:insights" size="medium"></lightning-icon>
+                                <h3>Protect Your Data</h3>
+                                <p>Get comprehensive security for critical data, across your apps and agents.</p>
+                                <span class="card-link">Monitor →</span>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Step 1: Inspect App -->
+                <template if:true={isStep1}>
+                    <div class="step-content">
+                        <div class="back-link" onclick={handleBackToWelcome}>
+                            <lightning-icon icon-name="utility:chevronleft" size="xx-small"></lightning-icon>
+                            <span>Back to Guide Home</span>
+                        </div>
+                        <div class="step-header">
+                            <lightning-icon icon-name="standard:apps" size="large" class="step-icon"></lightning-icon>
+                            <div class="step-header-text">
+                                <h2>Explore App Configuration with Setup with Agentforce</h2>
+                                <p class="step-description">Explore the components behind Connected Executive Education's custom AI application using Setup with Agentforce.</p>
+                                <p class="step-meta"><em>Estimated time to complete</em>: 5 minutes</p>
+                            </div>
+                        </div>
+
+                        <div class="instruction-panel">
+                            <div class="intro-section">
+                                <p>The Learning Management App is a fully configured custom AI application that CEE built on Salesforce using headless capabilities. Before you start building your own agents, take a moment to understand how this application is structured behind the scenes.</p>
+                                <p>Instead of manually exploring object tabs one by one in the UI, you'll use <strong>Setup with Agentforce</strong> to quickly explore the app's configuration layer. Setup with Agentforce can help you understand data models, relationships, customizations, fields, and permission sets across Salesforce objects – all through natural-language questions. Then you'll take a quick look at the app's tabs to see how that setup updates in the app experience.</p>
+                                <p>In this step, you'll use Setup with Agentforce to understand the core setup behind the Learning Management App, including its custom objects, relationships, fields, and access controls. Once you understand how the app is structured, you'll also see how that app updates in the app experience.</p>
+                            </div>
+
+                            <!-- Step 1: Enable Setup with Agentforce -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">1</span>
+                                    <h3>Enable Setup with Agentforce</h3>
+                                </div>
+
+                                <h4>Enable Data Cloud</h4>
+                                <p class="indented-step">Click the <strong>Setup gear icon</strong> in the top right</p>
+                                <p class="indented-step">In the <strong>Quick Find</strong> box, search for <strong>"Data Cloud Setup"</strong></p>
+                                <p class="indented-step">Click <strong>Get Started</strong> to enable <strong>Data Cloud</strong></p>
+
+                                <h4>Enable Einstein</h4>
+                                <p class="indented-step">In the <strong>Quick Find</strong> box, search for <strong>"Einstein Setup"</strong></p>
+                                <p class="indented-step">Toggle <strong>Einstein</strong> <span class="status-on">ON</span></p>
+
+                                <h4>Enable Agentforce</h4>
+                                <p class="indented-step">In the <strong>Quick Find</strong> box, search for <strong>"Agentforce Agents"</strong></p>
+                                <p class="indented-step">Toggle <strong>Agentforce Agents</strong> <span class="status-on">ON</span></p>
+
+                                <h4>Assign the Data Cloud User permission set</h4>
+                                <p class="indented-step">In the <strong>Quick Find</strong> box, search for <strong>"Permission Sets"</strong></p>
+                                <p class="indented-step">Open <strong>Data Cloud User</strong>, click <strong>Manage Assignments</strong> &rarr; <strong>Add Assignment</strong>, select your user, and click <strong>Assign</strong></p>
+
+                                <h4>Enable Setup with Agentforce</h4>
+                                <p class="indented-step">In the <strong>Quick Find</strong> box, search for <strong>"Setup with Agentforce"</strong></p>
+                                <p class="indented-step">Toggle <strong>Agent Availability</strong> <span class="status-on">ON</span></p>
+                                <div class="section-screenshot">
+                                    <img src={enables4aImage} alt="Setup with Agentforce settings page" class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Ask Setup with Agentforce to explain the app configuration -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">2</span>
+                                    <h3>Ask Setup with Agentforce to explain the app configuration</h3>
+                                </div>
+                                <p>Navigate to <strong>Setup with Agentforce</strong> by selecting the <strong>Home</strong> tab.</p>
+                                <div class="section-screenshot">
+                                    <img src={setupwithagentforceImage} alt="Setup Home page with Setup with Agentforce" class="screenshot-image" />
+                                </div>
+                                <p>In Setup with Agentforce, enter the following prompt:</p>
+                                <div class="prompt-copy-box">
+                                    <div class="prompt-copy-row">
+                                        <span>💬</span>
+                                        <span class="copy-code-text">Help me understand my org</span>
+                                        <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy prompt">
+                                            <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                            <span class="copy-code-label">Copy</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p>Review the response from Setup with Agentforce to understand your org's overall health, including security scores, license usage, storage utilization, and any critical issues that need attention.</p>
+                                <div class="section-screenshot">
+                                    <img src={s4aHealthImage} alt="Setup with Agentforce org health response" class="screenshot-image" />
+                                </div>
+                                <p>Next, enter the following prompt:</p>
+                                <div class="prompt-copy-box">
+                                    <div class="prompt-copy-row">
+                                        <span>💬</span>
+                                        <span class="copy-code-text">Help me understand objects, key relationships, important fields behind the Learning Management app.</span>
+                                        <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy prompt">
+                                            <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                            <span class="copy-code-label">Copy</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p>Review the response from Setup with Agentforce. It should help you understand:</p>
+                                <ul class="numbered-steps">
+                                    <li>The custom objects that support the Learning Management App</li>
+                                    <li>How Courses, Students, and Enrollments relate to each other</li>
+                                    <li>Which fields are important for tracking course details, learner profiles, enrollment status, and progress</li>
+                                    <li>Which permission sets or access controls help determine who can view or manage this data</li>
+                                </ul>
+                                <div class="section-screenshot">
+                                    <img src={s4aObjectsImage} alt="Setup with Agentforce Learning Management objects response" class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Review deep information -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">2</span>
+                                    <h3>Review deep information</h3>
+                                </div>
+                                <p>Next, use Setup with Agentforce to understand how access is controlled for this app.</p>
+                                <p>Enter the following prompt:</p>
+                                <div class="prompt-copy-box">
+                                    <div class="prompt-copy-row">
+                                        <span>💬</span>
+                                        <span class="copy-code-text">Which permission set controls access to the Learning Management app and its Courses, Students, and Enrollments objects? Summarize what users with those permissions can do.</span>
+                                        <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy prompt">
+                                            <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                            <span class="copy-code-label">Copy</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p>Review the response and look for how Salesforce controls access to the app, objects, fields, and records. You'll see how access control is structured in the app so you understand who has access to what and what actions they can perform.</p>
+                                <div class="section-screenshot">
+                                    <img src={s4aDeepImage} alt="Setup with Agentforce permission set details response" class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Confirm what you learned in the app -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">4</span>
+                                    <h3>Confirm what you learned in the app</h3>
+                                </div>
+                                <p>Now return to the <strong>Learning Management App</strong> by searching and selecting it from the <strong>App Launcher</strong> (waffle icon). Briefly open the following tabs:</p>
+                                <div class="tip-box">
+                                    <span>💡</span>
+                                    <span><strong>Tip:</strong> If you don't see any records when you open a tab, change the list view from <strong>Recently Viewed</strong> to <strong>All</strong> using the dropdown at the top of the page.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Courses Section (for reference) -->
+                        <div class="object-detail-section">
+                            <div class="object-detail-header">
+                                <lightning-icon icon-name="custom:custom24" size="medium"></lightning-icon>
+                                <h3>Courses</h3>
+                            </div>
+                            <div class="object-detail-content">
+                                <p>The <strong>Courses</strong> object stores all offerings available in CEE's executive
+                                    education catalog. Each record includes essential details such as category, delivery
+                                    format, duration, and instructor information.</p>
+                                <p>When you open the Courses tab, you'll see a list of sample course records – like
+                                    <em> Executive Leadership Fundamentals</em> and <em>Digital Transformation Strategy</em>. These records give you a realistic view of how a company like CEE might manage a dynamic course catalog inside Salesforce.</p>
+                                <div class="section-screenshot">
+                                    <img src={coursesImage} alt="Courses List View" class="screenshot-image" />
+                                </div>
+                                <div class="explore-list">
+                                    <h4>Try exploring:</h4>
+                                    <ul>
+                                        <li>The course list view to browse available programs</li>
+                                        <li>A course record to view its metadata and learning details</li>
+                                        <li>How each course links to active enrollments</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Students Section -->
+                        <div class="object-detail-section">
+                            <div class="object-detail-header">
+                                <lightning-icon icon-name="standard:people" size="medium"></lightning-icon>
+                                <h3>Students</h3>
+                            </div>
+                            <div class="object-detail-content">
+                                <p>The <strong>Students</strong> object captures learner profiles for individuals
+                                    enrolled in CEE's executive programs. Each profile includes the learner's name,
+                                    role, organization, contact information, and enrollment status.</p>
+                                <p>Opening a student record like <strong>Lisa Moore</strong> shows:</p>
+                                <ul class="feature-list">
+                                    <li>Student details such as company and job title</li>
+                                    <li>Contact information used for communication and automated workflows</li>
+                                    <li>Status indicators that reflect where the learner is in their journey</li>
+                                </ul>
+                                <div class="section-screenshot">
+                                    <img src={studentsImage} alt="Students List View" class="screenshot-image" />
+                                </div>
+                                <p class="detail-note">This data model allows CEE to keep a centralized, up-to-date
+                                    record of every participant.</p>
+                            </div>
+                        </div>
+
+                        <!-- Enrollments Section -->
+                        <div class="object-detail-section">
+                            <div class="object-detail-header">
+                                <lightning-icon icon-name="standard:task" size="medium"></lightning-icon>
+                                <h3>Enrollments</h3>
+                            </div>
+                            <div class="object-detail-content">
+                                <p>The <strong>Enrollments</strong> object connects students to their courses and tracks
+                                    their progress. Each enrollment record includes the course name, the student
+                                    assigned, start dates, and a live progress indicator.</p>
+                                <p>The <strong>Course Enrollments Dashboard</strong> organizes these records for quick
+                                    insight. You'll see:</p>
+                                <ul class="feature-list">
+                                    <li>A searchable list of all active enrollments</li>
+                                    <li>Progress bars showing learner completion</li>
+                                    <li>Course and student names linked directly to their records</li>
+                                    <li>Enrollment creation dates to track timelines</li>
+                                </ul>
+                                <div class="section-screenshot">
+                                    <img src={enrollmentsImage} alt="Enrollments Dashboard" class="screenshot-image" />
+                                </div>
+                                <p class="detail-note">This view helps CEE's coordinators and program managers monitor
+                                    multiple cohorts at once.</p>
+                            </div>
+                        </div>
+
+                        <!-- Wrap-Up -->
+                        <div class="action-box highlight">
+                            <div class="action-box-header">
+                                <lightning-icon icon-name="utility:touch_action" size="small"></lightning-icon>
+                                <h4>Wrap-Up</h4>
+                            </div>
+                            <p>Using Setup with Agentforce, you explored the app configuration behind the Learning Management app, including its custom objects, relationships, fields, and permission sets. You now understand how this app is structured behind the scenes.</p>
+                            <p>Now that you understand the app's structure and access model, you're ready to customize the CEE Learning Agent in Agentforce Builder. Then you'll confirm how that app updates in the app experience.</p>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Step 2: Agentforce Builder -->
+                <template if:true={isStep2}>
+                    <div class="step-content">
+                        <div class="back-link" onclick={handleBackToWelcome}>
+                            <lightning-icon icon-name="utility:chevronleft" size="xx-small"></lightning-icon>
+                            <span>Back to Guide Home</span>
+                        </div>
+                        <div class="step-header">
+                            <lightning-icon icon-name="standard:bot" size="large" class="step-icon"></lightning-icon>
+                            <div class="step-header-text">
+                                <h2>Agentforce Builder</h2>
+                                <p class="step-description">Explore the pre-built Agent Script and add a custom action using the new Agentforce Builder.</p>
+                                <p class="step-meta"><em>Estimated time to complete</em>: 5 minutes after sandbox creation</p>
+                            </div>
+                        </div>
+                        <div class="instruction-panel">
+                            <div class="intro-section">
+                                <p>Agentforce helps you bring AI agents into your workflows and applications to improve productivity, with humans and agents working together. CEE wants to build and customize their Agentforce in order to help their team manage courses, students, and enrollments for thousands of learners.</p>
+                                <p>The <strong>CEE Learning Agent</strong> has been pre-created for you using <strong>Agent Script</strong> — a powerful, code-control-friendly approach for building deterministic Agentforce agents. The agent's configuration, system instructions, Learning Management subagent, and two actions (Search Courses and Search Students) were defined in a single <strong style="color: #d04437;">.agent</strong> file and deployed as part of your org's metadata.</p>
+                                <p>In this step, you'll open the agent in the new <strong>Agentforce Builder</strong>, walk through the Agent Script, add one more action, then deploy your updated Agent Script file back into your org.</p>
+                            </div>
+
+                            <!-- Set Up Your Development Environment -->
+                            <div class="preconfig-notice">
+                                <p style="margin-bottom: 1em;">
+                                    <lightning-icon icon-name="standard:settings" size="small" style="vertical-align: middle; margin-right: 0.5rem;"></lightning-icon>
+                                    <strong>Set Up Your Development Environment</strong>
+                                </p>
+                                <p>Before you begin building, you'll need to create a sandbox — a safe, isolated copy of your org where you can develop and test changes without affecting your live environment.</p>
+                                <p>Follow these steps from <strong>this org</strong>:</p>
+                                <ul class="numbered-steps">
+                                    <li>Click the <strong>Setup gear icon</strong> in the top right corner of your screen</li>
+                                    <li>Click <strong>Setup</strong> to open the Setup Home page</li>
+                                    <li>In the <strong>Quick Find</strong> search box on the left, type <strong>"Sandboxes"</strong></li>
+                                    <li>Click <strong>Sandboxes</strong> under the <strong>Environments</strong> section in the left sidebar</li>
+                                    <li>On the Sandboxes page, click the <strong>New Sandbox</strong> button in the top right</li>
+                                    <li>Enter a <strong>Name</strong> for your sandbox (e.g., "fullcopy") — this will be used in your sandbox login URL</li>
+                                    <li>Optionally, add a <strong>Description</strong> (e.g., "Full Copy sandbox for trial")</li>
+                                    <li>Under <strong>Sandbox License</strong>, select <strong>Full Copy</strong> to create a complete copy of this org including all data and configuration</li>
+                                    <li>Click <strong>Next</strong></li>
+                                    <li>On the Sandbox Options page, select <strong>All</strong> for Object Data Included. Keep the default settings and click <strong>Create</strong></li>
+                                </ul>
+                                <p class="preconfig-note"><strong>Note:</strong> Sandbox creation can take some time depending on the size of your org. You will receive an <strong>email notification</strong> when your sandbox is ready to use. The email will contain a link to activate and log in to your new sandbox.</p>
+                                <p style="margin-top: 1.5em;"><strong>Logging into your sandbox:</strong></p>
+                                <ul class="numbered-steps">
+                                    <li>Click the activation link in the email you received, or go to <strong>test.salesforce.com</strong></li>
+                                    <li>Your sandbox username is your username with the sandbox name appended (e.g., <strong>yourname@company.com.fullcopy</strong>)</li>
+                                    <li>Use the same password as this org</li>
+                                    <li>Once logged in, you'll see the sandbox indicator in the top header confirming you're in your development environment</li>
+                                </ul>
+                                <p>All build activities in the following steps — <strong>Agentforce Builder</strong>, <strong>Test Agentforce</strong>, and <strong>Bring Your Own AI Tools</strong> — should be completed inside this sandbox. When you're ready to promote your work to production, you'll do so in the <strong>Deploy Securely</strong> step.</p>
+                            </div>
+
+                            <!-- Step 1: Enable Einstein and Agentforce -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">1</span>
+                                    <h3>Enable Einstein and Agentforce</h3>
+                                </div>
+                                <p>Before working with the agent, enable Einstein and Agentforce in your org.</p>
+
+                                <h4>Enable Einstein</h4>
+                                <ul class="numbered-steps">
+                                    <li>Click the <strong>Setup gear icon</strong> in the top right</li>
+                                    <li>In the <strong>Quick Find</strong> box, search for <strong>"Einstein Setup"</strong></li>
+                                    <li>Toggle <strong>Einstein</strong> <span class="status-on">ON</span></li>
+                                </ul>
+
+                                <h4>Enable Agentforce</h4>
+                                <ul class="numbered-steps">
+                                    <li>In the <strong>Quick Find</strong> box, search for <strong>"Agentforce Agents"</strong></li>
+                                    <li>Toggle <strong>Agentforce Agents</strong> <span class="status-on">ON</span></li>
+                                </ul>
+                                <div class="section-screenshot">
+                                    <img src={einsteinSetupImage} alt="Einstein Setup" class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Open the CEE Learning Agent in Agentforce Studio -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">2</span>
+                                    <h3>Open the CEE Learning Agent in Agentforce Studio</h3>
+                                </div>
+                                <p>The agent was created for you via Agent Script and deployed with the org metadata. Agentforce Builder, powered by the new Agent Script, is our redesigned, intuitive workspace that makes Agentforce easier to build, control, and trust. With natural-language creation, guided agentic assistance, and structured logic all working together, you can build and scale agents faster than ever.</p>
+                                <p>Want to learn more about Agentforce, including agent topics and actions before continuing? Check out this <a href="https://trailhead.salesforce.com/content/learn/trails/get-started-with-agentforce" target="_blank" rel="noopener noreferrer">Trail</a>, on Trailhead.</p>
+                                <p>To move forward in your trial org, open the CEE Learning Agent in the new Agentforce Builder.</p>
+                                <ol class="numbered-steps">
+                                    <li>Click the <strong>App Launcher</strong> (waffle icon) in the top left</li>
+                                    <li>Search for and select <strong>Agentforce Studio</strong></li>
+                                    <li>In the Agents list, find and click on <strong>CEE_Learning_Agent</strong> to open it in Agentforce Builder</li>
+                                </ol>
+                                <div class="section-screenshot">
+                                    <img src={ceeLearningAgentImage} alt="Open CEE Learning Agent in Agentforce Studio"
+                                        class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Explore the Agent Script -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">2</span>
+                                    <h3>Explore the Agent Script</h3>
+                                </div>
+                                <p>The new Agentforce Builder provides two synchronized views of the Agent Script. Use the <strong>Canvas/Script toggle</strong> at the top to switch between them:</p>
+                                <p><strong>Canvas View</strong> — A visual, document-style editor that presents the script as expandable blocks. Great for reviewing the agent's structure at a glance.</p>
+                                <p><strong>Script View</strong> — Shows the raw Agent Script code with syntax highlighting and autocompletion. Ideal for precise editing.</p>
+                                <p>Switch to <strong>Script View</strong> and walk through the key sections of the pre-built agent:</p>
+                                <ul class="numbered-steps">
+                                    <li><strong>config:</strong> — The agent metadata: name, description, type (Employee Agent), company context, and role.</li>
+                                    <li><strong>system:</strong> — The welcome message, error message, and global instructions that guide the agent's behavior.</li>
+                                    <li><strong>start_agent:</strong> — The entry point that greets the user and routes them to the Learning Management subagent.</li>
+                                    <li><strong>topic learning_management_lookup:</strong> — The topic definition with two pre-built actions: <strong>Search Courses</strong> ( <code>CourseLookupAction</code> ) and <strong>Search Students</strong> ( <code>StudentLookupAction</code> ).</li>
+                                </ul>
+                                <p>Those two pre-built actions for looking up courses and searching student data are important for Connected Executive Education's agents to help CEE employees find records fast.</p>
+                                <p>CEE also needs Agentforce to search <strong>enrollments</strong> – you'll add a new action for that next.</p>
+                                <div class="section-screenshot">
+                                    <img src={exploreAgentScriptImage} alt="Explore the Agent Script in Canvas View"
+                                        class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Add the Search Enrollments Action -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">4</span>
+                                    <h3>Add the Search Enrollments Action</h3>
+                                </div>
+                                <p>The subagent already has Search Courses and Search Students. Now add the missing <strong>Search Enrollments</strong> action to complete the subagent.</p>
+                                <p>Create a new version of the agent by selecting the <strong>New Version</strong> button in the top right.</p>
+                                <p>In the <strong>Explorer Panel</strong> on the left, expand the <strong>Learning Management Lookup</strong> subagent.</p>
+                                <p>Click the <strong>+</strong> icon next to the topic name and select <strong>Create new action</strong>.</p>
+                                <p>In the <strong>Add Action</strong> modal, enter:</p>
+                                <ul class="numbered-steps">
+                                    <li><strong>Action Name:</strong> <code>EnrollmentLookupAction</code></li>
+                                    <li><strong>Description:</strong> <code>Search for enrollments by student name, course title, or status</code></li>
+                                    <li><strong>Reference Action Type:</strong> <code>Apex</code></li>
+                                    <li><strong>Reference Action Category:</strong> <code>Invocable Method</code></li>
+                                    <li><strong>Reference Action:</strong> <code>Search Enrollments</code></li>
+                                </ul>
+                                <p>Click <strong>Create and Open</strong>.</p>
+                                <div class="section-screenshot" style="display: flex; justify-content: center;">
+                                    <img src={addSearchEnrollments1} alt="Add Action modal with enrollment action details"
+                                        class="screenshot-image" style="max-width: 60%; margin: 0 auto;" />
+                                </div>
+                                <p>The action is created and its configuration page opens. You'll see the <strong>Basic Information</strong> with the action label, API name, and description you just entered.</p>
+                                <p>The action's inputs and outputs will auto-populate from the Apex class. Review the outputs – you should see <strong>Result Summary</strong> and <strong>Status</strong>.</p>
+                                <p>You should now see all three actions listed under the topic in the Explorer Panel:</p>
+                                <ul class="numbered-steps">
+                                    <li><strong>Search Courses</strong><br/><code>CourseLookupAction</code> – pre-deployed via Agent Script</li>
+                                    <li><strong>Search Students</strong><br/><code>StudentLookupAction</code> – pre-deployed via Agent Script</li>
+                                    <li><strong>Search Enrollments</strong><br/><code>EnrollmentLookupAction</code> – added by you</li>
+                                </ul>
+                                <div class="section-screenshot">
+                                    <img src={addSearchEnrollments2} alt="Explorer Panel showing all three actions"
+                                        class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Step 5: Save, Commit Version, and Activate -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">5</span>
+                                    <h3>Save, Commit Version, and Activate</h3>
+                                </div>
+                                <p>With the new action added, publish the agent directly from the Agentforce Builder UI:</p>
+                                <ul class="numbered-steps">
+                                    <li>Click <strong>Save</strong> to persist your changes to the draft</li>
+                                    <li>Click <strong>Commit Version</strong> to create an immutable snapshot of the agent</li>
+                                    <li>Click <strong>Activate</strong> in the top right to make the agent live</li>
+                                </ul>
+                            </div>
+
+                            <!-- Step 6: Test Your Agent -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">6</span>
+                                    <h3>Test Your Agent</h3>
+                                </div>
+                                <p>Use the <strong>Preview</strong> function by selecting the preview button in the top middle panel. The preview supports two modes:</p>
+                                <ul class="numbered-steps">
+                                    <li><strong>Simulate</strong> — Put on the testing hat to see how changes</li>
+                                    <li><strong>Live Test</strong> — Execute live actions against your org data</li>
+                                </ul>
+                                <p>Try a sample query:</p>
+                                <div class="prompt-copy-box">
+                                    <div class="prompt-copy-row">
+                                        <span>💬</span>
+                                        <span class="copy-code-text">Tell me about the Cybersecurity for Executive course</span>
+                                        <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy prompt">
+                                            <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                            <span class="copy-code-label">Copy</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p>The agent should invoke the Search Courses action and return a clear summary of the matching course. You can also review the <strong>Interaction Details</strong> and <strong>Trace</strong> to see the agent's reasoning chain.</p>
+                            </div>
+
+                            <!-- Wrap-up Block -->
+                            <div class="action-box highlight">
+                                <div class="action-box-header">
+                                    <lightning-icon icon-name="utility:touch_action" size="small"></lightning-icon>
+                                    <h4>Ready for More Testing</h4>
+                                </div>
+                                <p>The CEE Learning Agent was pre-built using Agent Script – a code-first approach where the agent definition lives in a single <strong style="color: #d04437;">.agent</strong> file that can be version-controlled and deployed across environments. You explored the script in the new Agentforce Builder, added the Search Enrollments action, and published – all from the UI.</p>
+                                <p>Testing your agent is a thorough process that goes beyond just trying a few questions. Click "Next" to see more testing tools in action.</p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Step 3: Test Agent -->
+                <template if:true={isStep3}>
+                    <div class="step-content">
+                        <div class="back-link" onclick={handleBackToWelcome}>
+                            <lightning-icon icon-name="utility:chevronleft" size="xx-small"></lightning-icon>
+                            <span>Back to Guide Home</span>
+                        </div>
+                        <div class="step-header">
+                            <lightning-icon icon-name="standard:live_chat" size="large"
+                                class="step-icon"></lightning-icon>
+                            <div class="step-header-text">
+                                <h2>Test Agentforce</h2>
+                                <p class="step-description">Validate agent logic at scale using AI-generated test suites
+                                </p>
+                                <p class="step-meta"><em>Estimated time to complete</em>: 5 minutes</p>
+                            </div>
+                        </div>
+                        <div class="instruction-panel">
+                            <div class="intro-section">
+                                <p>Now that you've configured the Learning Management subagent, you need to ensure
+                                    that your agent performs consistently. Otherwise, you might release an agent before
+                                    it's fully ready!</p>
+                                <p>Instead of having to manually brainstorm and type dozens (or hundreds) of chat inputs
+                                    to test your Agentforce, we have Agentforce Testing Center to automate the testing
+                                    process. You'll use a Batch Test to generate synthetic test cases based on your
+                                    topic's definition.</p>
+                            </div>
+
+                            <!-- Step 1: Open Batch Test -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">1</span>
+                                    <h3>Open Batch Test</h3>
+                                </div>
+                                <p>Navigate out of <strong>Agentforce Builder</strong>, and select the <strong>Setup gear icon</strong> on the top right corner of your screen.</p>
+                                <p>Click <strong>Setup</strong> to open the Setup Home page.</p>
+                                <p>In the <strong>Quick Find</strong> search box on the left, type "<strong>Testing</strong>".</p>
+                                <p>Click <strong>Testing Center</strong> under <strong>Agentforce Studio</strong>.</p>
+                                <p>Select the <strong>New Test</strong> button.</p>
+                                <p>This opens the test creation modal for creating new test suites.</p>
+                                <div class="section-screenshot" style="display: flex; justify-content: center;">
+                                    <img src={testAgentforce1} alt="New Test modal"
+                                        class="screenshot-image" style="max-width: 60%; margin: 0 auto;" />
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Create a New Test Suite -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">2</span>
+                                    <h3>Create a New Test Suite</h3>
+                                </div>
+                                <ol class="numbered-steps">
+                                    <li>Name the test suite: <code>Learning Management Lookup</code></li>
+                                    <li>Select the new version of the agent you created as part of the previous section</li>
+                                    <li>Add the description: <code>Validates course lookups, student queries, and enrollment checks.</code></li>
+                                    <li>Click <strong>Next</strong></li>
+                                    <li>Click <strong>Next</strong></li>
+                                    <li>In the <strong>Test Data</strong> section, select the option to <strong>generate test cases based on subagents and actions</strong></li>
+                                    <li>Click <strong>Next</strong>. Select <strong>All</strong> under the Response Quality Evaluations section and click <strong>Generate Test Cases</strong></li>
+                                </ol>
+                                <div class="section-screenshot" style="display: flex; justify-content: center;">
+                                    <img src={testAgentforce2} alt="Response Quality Evaluations"
+                                        class="screenshot-image" style="max-width: 60%; margin: 0 auto;" />
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Run the Evaluation -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">2</span>
+                                    <h3>Run the Evaluation</h3>
+                                </div>
+                                <p>Once the suite is populated with the generated cases:</p>
+                                <ol class="numbered-steps">
+                                    <li>Click <strong>Run Suite</strong> in the top right</li>
+                                    <li>Batch Test will simulate these user inputs against the current agent
+                                        configuration in parallel</li>
+                                    <li>Wait for the status to change from <strong>Running</strong> to <strong>Completed</strong></li>
+                                </ol>
+                                <div class="section-screenshot">
+                                    <img src={testAgentforce3} alt="Test Results with status"
+                                        class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Analyze Results -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">4</span>
+                                    <h3>Analyze Results</h3>
+                                </div>
+                                <p>Let's see how our agent performed with our new topic by reviewing the automated
+                                    report that Agentforce Testing Center generated.</p>
+                                <p>First, look at the different utterances that Agentforce automatically generated in
+                                    the far left column. It saved a lot of time!</p>
+                                <p>Next, evaluate the report for:</p>
+                                <ul class="feature-list">
+                                    <li><strong>Pass Rate</strong> — Review the Subagent Pass %, Action Pass %, and Response Pass % to see how well the agent performed across different evaluation criteria</li>
+                                    <li><strong>Reasoning Chains</strong> — Click on a specific test case to view the
+                                        generated reasoning log. Confirm the agent correctly chained the logic (Student
+                                        Search → Enrollment Search)</li>
+                                    <li><strong>Regression Check</strong> — If you see any red "Fail" icons, it means
+                                        the agent either hallucinated a topic or failed to trigger the correct action.
+                                        Since we deleted "General CRM" topic, your Learning Management subagent should be the clear winner</li>
+                                </ul>
+                                <div class="section-screenshot">
+                                    <img src={testAgentforce4} alt="Test Results" class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Step 5: Confirm Readiness -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">5</span>
+                                    <h3>Confirm Readiness</h3>
+                                </div>
+                                <p>If your Learning Management Lookup suite passes with all green checks, your agent's
+                                    fundamental logic is solid.</p>
+                            </div>
+
+                            <!-- Wrap-Up -->
+                            <div class="action-box highlight">
+                                <div class="action-box-header">
+                                    <lightning-icon icon-name="utility:touch_action" size="small"></lightning-icon>
+                                    <h4>Wrap-Up</h4>
+                                </div>
+                                <p>Thorough testing for any agent, app, or enhancement prevents bugs and errors from
+                                    making their way into your production org, potentially disrupting your users or
+                                    customers. It's a critical part of good agent and app lifecycle management!</p><br/>
+                                <p>Now that you've tested, you're now ready to enhance the Learning Management app
+                                    interface using your preferred AI tool.</p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Step 5b: Bring Your Own AI Tools -->
+<template if:true={isStep5b}>
+    <div class="step-content">
+        <div class="back-link" onclick={handleBackToWelcome}>
+            <lightning-icon icon-name="utility:chevronleft" size="xx-small"></lightning-icon>
+            <span>Back to Guide Home</span>
+        </div>
+        <div class="step-header">
+            <lightning-icon icon-name="standard:connected_apps" size="large" class="step-icon"></lightning-icon>
+            <div class="step-header-text">
+                <h2>Bring Your Own AI Tools</h2>
+                <p class="step-description">Use your preferred AI assistant to build on Salesforce</p>
+                <p class="step-meta"><em>Estimated time to complete</em>: 20-30 minutes</p>
+            </div>
+        </div>
+        <div class="instruction-panel">
+            <div class="intro-section">
+                <p>Already have a Claude subscription, Cursor IDE, or another AI coding assistant? Connect it directly to your Salesforce org and complete the same development exercise using your preferred AI tooling.</p>
+                <p>In this step, you'll choose from several popular AI development tools, set up the connection to Salesforce, and complete the same Lightning Web Component enhancement — using your own AI subscription.</p>
+            </div>
+
+            <!-- Journey Overview (clickable toggles) -->
+            <div class="journey-overview">
+                <button type="button" class={mcpCardClass} data-section="mcp" onclick={toggleSection}>
+                    <span class="journey-number">1</span>
+                    <h4>Set up MCP servers</h4>
+                    <p>Activate Salesforce's hosted MCP servers and create an external client app.</p>
+                    <span class="journey-toggle-hint">{mcpCardHint}</span>
+                </button>
+                <button type="button" class={toolCardClass} data-section="tool" onclick={toggleSection}>
+                    <span class="journey-number">2</span>
+                    <h4>Choose your tool</h4>
+                    <p>Pick Claude Code CLI or Cursor IDE and connect it to your org.</p>
+                    <span class="journey-toggle-hint">{toolCardHint}</span>
+                </button>
+                <button type="button" class={exerciseCardClass} data-section="exercise" onclick={toggleSection}>
+                    <span class="journey-number">3</span>
+                    <h4>Complete the exercise</h4>
+                    <p>Add a summary card to the Learning Management Dashboard and deploy it.</p>
+                    <span class="journey-toggle-hint">{exerciseCardHint}</span>
+                </button>
+            </div>
+
+            <!-- Common MCP Setup Section (revealed by journey card 1) -->
+            <template if:true={isMcpSection}>
+                <div class="section-reveal">
+                    <div class="mcp-setup-body">
+                        <h3 class="section-reveal-title">Set up MCP servers</h3>
+                        <p class="mcp-setup-intro">Before choosing your AI tool, you'll need to set up Salesforce's hosted MCP servers. Complete these steps first, then proceed to your preferred tool.</p>
+
+                        <!-- Sub-step 1 -->
+                        <div class="mcp-substep">
+                            <div class="mcp-substep-header">
+                                <span class="mcp-substep-number">a</span>
+                                <h5>Activate Salesforce Hosted MCP Servers</h5>
+                            </div>
+                            <div class="mcp-substep-body">
+                                <p class="step-detail-1">In your sandbox org, navigate to <strong>Setup</strong></p>
+                                <p class="step-detail-1">In the Quick Find box, search for <strong>"MCP Servers"</strong> (under <strong>API Catalog</strong>)</p>
+                                <p class="step-detail-1">Select the <strong>Salesforce Servers</strong> tab</p>
+                                <p class="step-detail-1">Select <strong>sobject-all</strong> and click the <strong>Activate</strong> button in the top right</p>
+                                <p class="step-detail-1">Copy the <strong>Server URL</strong> that is in the <strong>Authentication Details</strong> section</p>
+                                <p class="step-detail-1">Repeat the activation steps for the below servers and copy their associated server urls as well. This will be needed in a later step.</p>
+                                <p class="step-detail-2"><strong>sobject-reads</strong></p>
+                                <p class="step-detail-2"><strong>salesforce-api-context</strong></p>
+                                <p class="step-detail-2"><strong>metadata-experts</strong></p>
+                                <p class="mcp-why"><em>Why you need this:</em> This enables the MCP infrastructure within your Salesforce org so your AI tool can access your data.</p>
+                            </div>
+                        </div>
+
+                        <!-- Sub-step 2 -->
+                        <div class="mcp-substep">
+                            <div class="mcp-substep-header">
+                                <span class="mcp-substep-number">b</span>
+                                <h5>Create the External Client App</h5>
+                            </div>
+                            <div class="mcp-substep-body">
+                                <p class="step-detail-1">Still in Setup, search for <strong>"External Client App Manager"</strong></p>
+                                <p class="step-detail-1">Click <strong>New External Client App</strong></p>
+                                <p class="step-detail-2">For <strong>External Client App Name</strong>, enter "MCP Client" (the API name should autofill)</p>
+                                <p class="step-detail-2">For <strong>Contact Email</strong>, enter your email address</p>
+                                <p class="step-detail-1">Expand <strong>API (Enable OAuth Settings)</strong></p>
+                                <p class="step-detail-2">Check <strong>Enable OAuth</strong></p>
+                                <p class="step-detail-2">For <strong>Callback URL</strong>, enter the callback URL for your tool:</p>
+                                <p class="step-detail-3">For <strong>Claude Code CLI</strong>: <code class="copy-code-text">http://localhost:38000/callback</code><button type="button" class="copy-inline-btn" onclick={handleCopyCode} aria-label="Copy code"><lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon><span class="copy-code-label">Copy</span></button></p>
+                                <p class="step-detail-3">For <strong>Cursor</strong>: <code class="copy-code-text">cursor://anysphere.cursor-mcp/oauth/callback</code><button type="button" class="copy-inline-btn" onclick={handleCopyCode} aria-label="Copy code"><lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon><span class="copy-code-label">Copy</span></button></p>
+                                <p class="step-detail-2">Add these OAuth scopes:</p>
+                                <p class="step-detail-3">Perform requests at any time (refresh_token, offline_access)</p>
+                                <p class="step-detail-3">Access Salesforce hosted MCP servers (mcp_api)</p>
+                                <p class="step-detail-2">Under <strong>Security</strong>, uncheck:</p>
+                                <p class="step-detail-3">Require secret for Web Server Flow</p>
+                                <p class="step-detail-3">Require secret for Refresh Token Flow</p>
+                                <p class="step-detail-2">Under <strong>Security</strong>, check:</p>
+                                <p class="step-detail-3">Require Proof Key for Code Exchange (PKCE) extension for Supported Authorization Flows</p>
+                                <p class="step-detail-3">Issue JSON Web Token (JWT)-based access tokens for named users</p>
+                                <p class="step-detail-1">Click <strong>Create</strong></p>
+                                <p class="mcp-why"><em>Why you need this:</em> This OAuth app handles secure authentication between your AI tool and Salesforce.</p>
+                            </div>
+                        </div>
+
+                        <!-- Sub-step 3 -->
+                        <div class="mcp-substep">
+                            <div class="mcp-substep-header">
+                                <span class="mcp-substep-number">c</span>
+                                <h5>Copy the Client ID and Secret</h5>
+                            </div>
+                            <div class="mcp-substep-body">
+                                <p class="step-detail-1">After saving, click <strong>Settings</strong> tab, then expand <strong>OAuth Settings</strong> and click <strong>Consumer Key and Secret</strong> (you may be asked for a verification code that will be sent to the email associated to your org)</p>
+                                <p class="step-detail-1">Copy both values and keep them handy</p>
+                                <p class="mcp-why"><em>What this is:</em> These credentials allow your AI tool to authenticate with your Salesforce org.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Choose Your Tool Section (revealed by journey card 2) -->
+            <template if:true={isToolSection}>
+                <div class="section-reveal">
+                    <div class="mcp-setup-body">
+                        <h3 class="section-reveal-title">Choose your AI tool</h3>
+                        <p class="mcp-setup-intro">Now that you've set up the MCP servers, select one of the following AI tools to complete the exercise. Each section includes setup instructions specific to that tool.</p>
+
+            <!-- Tool Tabs -->
+            <div class="tool-tabs" role="tablist">
+                <button type="button" class={claudeTabClass} data-tool="claude" onclick={selectTool} role="tab">
+                    <span>Claude Code CLI</span>
+                </button>
+                <button type="button" class={cursorTabClass} data-tool="cursor" onclick={selectTool} role="tab">
+                    <span>Cursor IDE</span>
+                </button>
+            </div>
+
+            <!-- Tool 1: Claude Code CLI -->
+            <template if:true={isClaudeTool}>
+                <div class="config-section tool-panel">
+                    <div class="tool-content">
+                        <div class="action-box">
+                            <p><strong>📚 Official Documentation:</strong></p>
+                            <ul class="feature-list">
+                                <li><a href="https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/claude.html" target="_blank" rel="noopener noreferrer">Connect Claude with Salesforce Hosted MCP Servers</a></li>
+                                <li><a href="https://developer.salesforce.com/blogs/2026/05/connect-claude-with-salesforce-hosted-mcp-servers" target="_blank" rel="noopener noreferrer">Blog: Connect Claude with Salesforce Hosted MCP Servers</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="tip-box">
+                            <span>💡</span>
+                            <span><strong>New to development tools?</strong> Don't worry! These steps walk you through everything. You'll be installing some programs on your computer and typing a few commands – think of it like following a recipe.</span>
+                        </div>
+
+                        <h4>What You'll Need</h4>
+                        <ul class="feature-list">
+                            <li><strong>Claude Pro or Team subscription</strong> – This is Claude's paid plan. <a href="https://claude.ai/upgrade" target="_blank" rel="noopener noreferrer">Sign up here</a> if you don't have it yet.</li>
+                            <li><strong>About 15 minutes</strong> to install the required programs</li>
+                        </ul>
+
+                        <div class="mcp-substep" style="margin-top: 1.5rem;">
+                            <div class="mcp-substep-header">
+                                <span class="mcp-substep-number">a</span>
+                                <h5>Installation Steps</h5>
+                            </div>
+                            <div class="mcp-substep-body">
+                                <ol class="numbered-steps">
+                            <li>
+                                <strong>Install Salesforce CLI</strong>
+                                <p class="indented-step">Go to <a href="https://developer.salesforce.com/tools/salesforcecli" target="_blank" rel="noopener noreferrer">developer.salesforce.com/tools/salesforcecli</a></p>
+                                <p class="indented-step">Download the installer for your operating system and run it.</p>
+                                <p class="mcp-why"><em>Why you need this:</em> This program lets your computer talk to your Salesforce org.</p>
+                            </li>
+
+                            <li>
+                                <strong>Open Terminal (Mac) or Command Prompt (Windows)</strong>
+                                <p class="indented-step"><strong>On Mac:</strong> Press <strong>Cmd + Space</strong>, type "Terminal", and press Enter.</p>
+                                <p class="indented-step"><strong>On Windows:</strong> Press <strong>Windows key</strong>, type "Command Prompt", and press Enter.</p>
+                                <p class="mcp-why"><em>What is this?</em> The terminal is a text-based way to give commands to your computer. Don't worry – we'll tell you exactly what to type!</p>
+                            </li>
+
+                            <li>
+                                <strong>Install Claude Code</strong>
+                                <p class="indented-step">In the terminal, type this command and press Enter:</p>
+                                <div class="copy-code-block">
+                                    <code class="copy-code-text">npm install -g @anthropic-ai/claude-code</code>
+                                    <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy code">
+                                        <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                        <span class="copy-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <p class="indented-step"><em>Note:</em> If you see an error about "npm not found", install Node.js first from <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">nodejs.org</a> (download the LTS version).</p>
+                            </li>
+
+                            <li>
+                                <strong>Create and navigate to a Salesforce project</strong>
+                                <p class="indented-step">Type these commands one at a time, pressing Enter after each:</p>
+                                <p class="indented-step"><code>cd ~/Desktop</code> (Mac) or <code>cd %USERPROFILE%\Desktop</code> (Windows)</p>
+                                <p class="indented-step"><code>sf project generate --name SalesforceProject</code></p>
+                                <p class="indented-step"><code>cd SalesforceProject</code></p>
+                                <p class="mcp-why"><em>What this does:</em> Creates a folder on your Desktop with the proper Salesforce project structure.</p>
+                            </li>
+                        </ol>
+                            </div>
+                        </div>
+
+                        <div class="mcp-substep">
+                            <div class="mcp-substep-header">
+                                <span class="mcp-substep-number">b</span>
+                                <h5>Connect Claude Code to MCP Servers</h5>
+                            </div>
+                            <div class="mcp-substep-body">
+                                <p>Now you'll connect Claude Code to the MCP servers you activated earlier.</p>
+                                <ol class="numbered-steps">
+                            <li>
+                                <strong>Configure Claude Code with MCP Servers</strong>
+                                <p class="indented-step">Run the following command for each of the Salesforce Servers you activated earlier:</p>
+                                <div class="copy-code-block">
+                                    <code class="copy-code-text">claude mcp add --transport http MY_MCP_SERVER_NAME MY_MCP_SERVER_URL --callback-port 38000 --client-id "MY_ECA_CONSUMER_KEY" --client-secret</code>
+                                    <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy code">
+                                        <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                        <span class="copy-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <p class="step-detail-2"><strong>MY_MCP_SERVER_NAME</strong> is replaced by the name of the server that you're connecting to. You're free to enter any value, but we recommend that you stick to the following convention: salesforce- followed by the API name of the MCP server. For example: salesforce-sobject-all for the sobject-all server.</p>
+                                <p class="step-detail-2"><strong>MY_MCP_SERVER_URL</strong> is replaced by the MCP server URL that you copied earlier. Pay attention to the fact that server URLs differ depending on whether you are connecting to a production or sandbox/scratch org.</p>
+                                <p class="step-detail-2"><strong>MY_ECA_CONSUMER_KEY</strong> is replaced by the ECA consumer key you've obtained in the previous step.</p>
+                                <p class="indented-step">For example, you would run the below when installing to a sandbox replacing the XXX value with the client ID you copied earlier:</p>
+                                <div class="copy-code-block">
+                                    <code class="copy-code-text">claude mcp add --transport http salesforce-sobject-all https://api.salesforce.com/platform/mcp/v1/sandbox/platform/sobject-all --callback-port 38000 --client-id "XXX" --client-secret</code>
+                                    <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy code">
+                                        <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                        <span class="copy-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <div class="copy-code-block">
+                                    <code class="copy-code-text">claude mcp add --transport http sobject-reads https://api.salesforce.com/platform/mcp/v1/sandbox/platform/sobject-reads --callback-port 38000 --client-id "XXX" --client-secret</code>
+                                    <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy code">
+                                        <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                        <span class="copy-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <div class="copy-code-block">
+                                    <code class="copy-code-text">claude mcp add --transport http salesforce-api-context https://api.salesforce.com/platform/mcp/v1/sandbox/platform/salesforce-api-context --callback-port 38000 --client-id "XXX" --client-secret</code>
+                                    <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy code">
+                                        <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                        <span class="copy-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <div class="copy-code-block">
+                                    <code class="copy-code-text">claude mcp add --transport http metadata-experts https://api.salesforce.com/platform/mcp/v1/sandbox/platform/metadata-experts --callback-port 38000 --client-id "XXX" --client-secret</code>
+                                    <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy code">
+                                        <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                        <span class="copy-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <p class="indented-step">When prompted to do so, paste the ECA consumer secret you've obtained previously.</p>
+                            </li>
+
+                            <li>
+                                <strong>Start Claude Code</strong>
+                                <p class="indented-step">Type: <code>claude</code></p>
+                                <p class="indented-step">Claude Code will launch in your terminal.</p>
+                            </li>
+
+                            <li>
+                                <strong>Authenticate the MCP Server</strong>
+                                <p class="indented-step">In Claude Code, type: <code>/mcp</code></p>
+                                <p class="indented-step">You'll see your MCP server listed. Select it and choose <strong>Authenticate</strong>. (If you don't see the MCP server, quit Claude by typing <code>exit</code> and pressing Enter/Return. Then start up the Claude session by typing <code>claude</code> and try <code>/mcp</code> again.)</p>
+                                <p class="indented-step">A browser window will open asking you to grant access. Log in with your Salesforce credentials and click <strong>Allow</strong>.</p>
+                                <p class="indented-step">Once authenticated, Claude Code will show the server status as "connected."</p>
+                                <p class="mcp-why"><em>Why MCP matters:</em> With the MCP server connected, Claude can read your Salesforce schema, query records, and understand your org's structure – making it much more effective at helping you build and modify Salesforce components.</p>
+                            </li>
+                        </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Tool 2: Cursor IDE -->
+            <template if:true={isCursorTool}>
+                <div class="config-section tool-panel">
+                    <div class="tool-content">
+                        <div class="action-box">
+                            <p><strong>📚 Official Documentation:</strong></p>
+                            <ul class="feature-list">
+                                <li><a href="https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/cursor.html" target="_blank" rel="noopener noreferrer">Connect Cursor with Salesforce Hosted MCP Servers</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="tip-box">
+                            <span>💡</span>
+                            <span><strong>New to code editors?</strong> Cursor is a text editor designed for writing code, with AI assistance built in to help you. These instructions will guide you through each step.</span>
+                        </div>
+
+                        <h4>What You'll Need</h4>
+                        <ul class="feature-list">
+                            <li><strong>Cursor subscription</strong> – Cursor Pro is recommended but not required. <a href="https://cursor.sh/pricing" target="_blank" rel="noopener noreferrer">See plans here</a>.</li>
+                            <li><strong>About 15 minutes</strong> to install and set up</li>
+                        </ul>
+
+                        <div class="mcp-substep" style="margin-top: 1.5rem;">
+                            <div class="mcp-substep-header">
+                                <span class="mcp-substep-number">a</span>
+                                <h5>Installation Steps</h5>
+                            </div>
+                            <div class="mcp-substep-body">
+                                <ol class="numbered-steps">
+                                    <li>
+                                        <strong>Download and install Cursor</strong>
+                                        <p class="indented-step">Visit <a href="https://cursor.sh" target="_blank" rel="noopener noreferrer">cursor.sh</a> and click the <strong>Download</strong> button.</p>
+                                        <p class="indented-step">Open the downloaded file and follow the installation prompts – just like installing any app.</p>
+                                        <p class="mcp-why"><em>Why you need this:</em> Cursor is a code editor with AI assistance built in to help you write Salesforce code.</p>
+                                    </li>
+
+                                    <li>
+                                        <strong>Install Salesforce CLI (Command Line Interface)</strong>
+                                        <p class="indented-step">Go to <a href="https://developer.salesforce.com/tools/salesforcecli" target="_blank" rel="noopener noreferrer">developer.salesforce.com/tools/salesforcecli</a></p>
+                                        <p class="indented-step">Download the installer for your computer (Mac or Windows) and run it.</p>
+                                        <p class="mcp-why"><em>Why you need this:</em> This lets Cursor communicate with Salesforce to download and upload code.</p>
+                                    </li>
+
+                                    <li>
+                                        <strong>Create a project folder</strong>
+                                        <p class="indented-step">On your Desktop, create a new folder and name it <strong>SalesforceProject</strong>.</p>
+                                        <p class="indented-step"><strong>Mac:</strong> Right-click on Desktop → New Folder</p>
+                                        <p class="indented-step"><strong>Windows:</strong> Right-click on Desktop → New → Folder</p>
+                                        <p class="mcp-why"><em>Why you need this:</em> This is where Cursor will set up your Salesforce project and store all the code files.</p>
+                                    </li>
+
+                                    <li>
+                                        <strong>Open Cursor</strong>
+                                        <p class="indented-step">Launch Cursor from your Applications folder (Mac) or Start Menu (Windows).</p>
+                                        <p class="indented-step">Sign in when prompted (you can use GitHub, Google, or email).</p>
+                                    </li>
+
+                                    <li>
+                                        <strong>Open the project folder in Cursor</strong>
+                                        <p class="indented-step">In Cursor, click <strong>File → Open Folder</strong>.</p>
+                                        <p class="indented-step">Navigate to your Desktop, select the <strong>SalesforceProject</strong> folder, and click <strong>Open</strong>.</p>
+                                        <p class="indented-step">You'll see an empty folder in Cursor's left sidebar. You're now ready to complete the exercise!</p>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="mcp-substep">
+                            <div class="mcp-substep-header">
+                                <span class="mcp-substep-number">b</span>
+                                <h5>Connect Cursor to MCP Servers</h5>
+                            </div>
+                            <div class="mcp-substep-body">
+                                <p>Now you'll connect Cursor to the MCP servers you activated earlier.</p>
+                                <ol class="numbered-steps">
+                                    <li>
+                                        <strong>Configure Cursor with MCP Servers</strong>
+                                        <p class="indented-step">Select <strong>Cursor | Settings | Cursor Settings | Tools &amp; MCP</strong></p>
+                                        <p class="indented-step">Click <strong>New MCP Server</strong>. This creates a file called <strong>mcp.json</strong>.</p>
+                                        <p class="indented-step">Replace the contents of the <strong>mcp.json</strong> file. For example:</p>
+                                        <div class="copy-code-block copy-code-block-pre">
+                                        <button type="button" class="copy-code-btn copy-code-btn-corner" onclick={handleCopyCode} aria-label="Copy code">
+                                            <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                            <span class="copy-code-label">Copy</span>
+                                        </button>
+                                        <pre class="code-block-json copy-code-text" style="margin: 0; padding: 1rem; background-color: #f4f4f4; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.4;"><code>&#123;
+  "mcpServers": &#123;
+    "salesforce-sobject-all": &#123;
+      "url": "https://api.salesforce.com/platform/mcp/v1/sandbox/platform/sobject-all",
+      "auth": &#123;
+        "CLIENT_ID": "XXX"
+      &#125;
+    &#125;,
+    "sobject-reads": &#123;
+      "url": "https://api.salesforce.com/platform/mcp/v1/sandbox/platform/sobject-reads",
+      "auth": &#123;
+        "CLIENT_ID": "XXX"
+      &#125;
+    &#125;,
+    "salesforce-api-context": &#123;
+      "url": "https://api.salesforce.com/platform/mcp/v1/sandbox/platform/salesforce-api-context",
+      "auth": &#123;
+        "CLIENT_ID": "XXX"
+      &#125;
+    &#125;,
+    "metadata-experts": &#123;
+      "url": "https://api.salesforce.com/platform/mcp/v1/sandbox/platform/metadata-experts",
+      "auth": &#123;
+        "CLIENT_ID": "XXX"
+      &#125;
+    &#125;
+  &#125;
+&#125;</code></pre>
+                                        </div>
+                                        <p class="indented-step">After pasting, right click the file and format the document</p>
+                                        <p class="indented-step">Replace <code>XXX</code> with the consumer key that you saved from the external client app</p>
+                                        <p class="indented-step"><em>Note:</em> The authentication flow for Cursor uses the <code class="copy-code-text">cursor://anysphere.cursor-mcp/oauth/callback</code><button type="button" class="copy-inline-btn" onclick={handleCopyCode} aria-label="Copy code"><lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon><span class="copy-code-label">Copy</span></button> callback URL you configured.</p>
+                                    </li>
+
+                                    <li>
+                                        <strong>Authenticate the MCP Server</strong>
+                                        <p class="indented-step">Navigate back to <strong>Cursor | Settings | Cursor Settings | Tools &amp; MCP</strong></p>
+                                        <p class="indented-step">You will see the new MCP servers in the <strong>Installed MCP Servers</strong> section. Select the authenticate button for each and enter in your sandbox credentials.</p>
+                                    </li>
+
+                                    <li>
+                                        <strong>Open Cursor's AI chat</strong>
+                                        <p class="indented-step">Press <strong>Cmd + L</strong> (Mac) or <strong>Ctrl + L</strong> (Windows) to open the chat.</p>
+                                        <p class="indented-step">A chat window will appear.</p>
+                                    </li>
+
+                                    <li>
+                                        <strong>Set up the Salesforce project structure</strong>
+                                        <p class="indented-step">Type:</p>
+                                        <div class="prompt-copy-box">
+                                            <div class="prompt-copy-row">
+                                                <span>💬</span>
+                                                <span class="copy-code-text">Set up a Salesforce DX project structure in this folder</span>
+                                                <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy prompt">
+                                                    <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                                    <span class="copy-code-label">Copy</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p class="indented-step"><em>Note:</em> Cursor may ask for your permission to run commands or create files. Review and approve these requests as they come up.</p>
+                                        <p class="indented-step">Cursor will create the necessary Salesforce project files and folders for you.</p>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Exercise Section (revealed by journey card 3) -->
+            <template if:true={isExerciseSection}>
+                <div class="section-reveal">
+                    <div class="mcp-setup-body">
+                        <h3 class="section-reveal-title">Complete the exercise</h3>
+
+                        <!-- Sub-step 1: Connect and prepare -->
+                        <div class="mcp-substep">
+                            <div class="mcp-substep-header">
+                                <span class="mcp-substep-number">a</span>
+                                <h5>Connect and Prepare Your Project</h5>
+                            </div>
+                            <div class="mcp-substep-body">
+                                <ol class="numbered-steps">
+                                    <li>
+                                        <strong>Ask your AI tool to connect to your Salesforce sandbox</strong>
+                                        <p class="indented-step">Type: <em>"Connect to my Salesforce sandbox at test.salesforce.com"</em></p>
+                                        <p class="indented-step">Your AI tool will run the login command and a browser window will open. Log in with your <strong>sandbox</strong> credentials:</p>
+                                        <p class="indented-step"><strong>Username:</strong> yourname@company.com<strong>.sandboxname</strong> (replace "sandboxname" with whatever you named your sandbox - e.g., .fullcopy)</p>
+                                        <p class="indented-step"><strong>Password:</strong> Your regular Salesforce password</p>
+                                        <p class="indented-step">After logging in, you'll see a success message. Close the browser and return to your AI tool.</p>
+                                        <p class="mcp-why"><em>Why you need this:</em> This authenticates your AI tool to work with your Salesforce org.</p>
+                                    </li>
+
+                                    <li>
+                                        <strong>Ask your AI tool to retrieve your org metadata</strong>
+                                        <p class="indented-step">Type:</p>
+                                        <div class="prompt-copy-box">
+                                            <div class="prompt-copy-row">
+                                                <span>💬</span>
+                                                <span class="copy-code-text">Retrieve all metadata from my Salesforce sandbox including Apex classes, Lightning components, custom objects, and custom fields</span>
+                                                <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy prompt">
+                                                    <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                                    <span class="copy-code-label">Copy</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p class="indented-step">Your AI tool will create the necessary package.xml file and retrieve everything for you. This takes 1-2 minutes.</p>
+                                        <p class="mcp-why"><em>Why you need this:</em> Your AI tool needs to see your custom objects, fields, and components to understand the full context.</p>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- Sub-step 2: Build and deploy -->
+                        <div class="mcp-substep">
+                            <div class="mcp-substep-header">
+                                <span class="mcp-substep-number">b</span>
+                                <h5>Build and Deploy the Change</h5>
+                            </div>
+                            <div class="mcp-substep-body">
+                                <ol class="numbered-steps">
+                                    <li>
+                                        <strong>Paste the exercise prompt</strong>
+                                        <p class="indented-step">Copy the prompt below and paste it into your AI tool's chat, then press Enter:</p>
+                                        <div class="prompt-copy-box">
+                                            <div class="prompt-copy-row">
+                                                <span>💬</span>
+                                                <span class="copy-code-text">Add a summary card on top of the Learning Management Dashboard so we can see course progress of completed, not started and in progress items at a glance. Make sure to keep any existing styling intact, and also make sure the new addition is according to the css styles.</span>
+                                                <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy prompt">
+                                                    <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                                    <span class="copy-code-label">Copy</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <strong>Let your AI tool work</strong>
+                                        <p class="indented-step">Your AI tool will search for the learningManagementDashboard files, analyze the code, and propose the changes needed.</p>
+                                        <p class="indented-step"><em>Note:</em> Your AI tool may ask for your permission to read files or make edits. Review and approve these requests as they come up.</p>
+                                    </li>
+
+                                    <li>
+                                        <strong>Review the proposed changes</strong>
+                                        <p class="indented-step">Your AI tool will show you the file changes with additions and removals clearly marked.</p>
+                                        <p class="indented-step">Look over the changes to make sure they align with the task.</p>
+                                    </li>
+
+                                    <li>
+                                        <strong>Accept the changes and deploy to your sandbox</strong>
+                                        <p class="indented-step">If the changes look good, tell your AI tool to proceed and deploy.</p>
+                                        <p class="indented-step">Type:</p>
+                                        <div class="prompt-copy-box">
+                                            <div class="prompt-copy-row">
+                                                <span>💬</span>
+                                                <span class="copy-code-text">Yes, deploy these changes to my sandbox</span>
+                                                <button type="button" class="copy-code-btn" onclick={handleCopyCode} aria-label="Copy prompt">
+                                                    <lightning-icon icon-name="utility:copy_to_clipboard" size="xx-small"></lightning-icon>
+                                                    <span class="copy-code-label">Copy</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p class="indented-step">Your AI tool will apply the edits and use the Salesforce CLI to deploy the modified code to your sandbox org.</p>
+                                        <p class="indented-step">Wait for the "Deploy Succeeded" message.</p>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- Sub-step 3: Verify -->
+                        <div class="mcp-substep">
+                            <div class="mcp-substep-header">
+                                <span class="mcp-substep-number">c</span>
+                                <h5>Verify Your Changes</h5>
+                            </div>
+                            <div class="mcp-substep-body">
+                                <ol class="numbered-steps">
+                                    <li>Navigate to your sandbox org</li>
+                                    <li>Open the Learning Management Dashboard</li>
+                                    <li>
+                                        Hard refresh the page to clear cache
+                                        <p class="indented-step"><strong>Mac:</strong> Press <strong>Cmd + Shift + R</strong></p>
+                                        <p class="indented-step"><strong>Windows:</strong> Press <strong>Ctrl + Shift + R</strong></p>
+                                    </li>
+                                    <li>Confirm the summary cards appear as shown in the screenshot below</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Final preview image -->
+            <div class="exercise-preview final">
+                <span class="exercise-preview-label">What you'll build</span>
+                <img src={claudeDashboardResultImage} alt="Expected Dashboard Result" class="exercise-preview-img" />
+                <span class="exercise-preview-caption">Preview of the finished Learning Management Dashboard</span>
+            </div>
+
+            <!-- Wrap-Up -->
+            <div class="action-box highlight">
+                <div class="action-box-header">
+                    <lightning-icon icon-name="utility:touch_action" size="small"></lightning-icon>
+                    <h4>Wrap-Up</h4>
+                </div>
+                <p>You've successfully used your preferred AI tool to build on Salesforce! While Agentforce Vibes provides a purpose-built, Salesforce-native experience with org-aware context and MCP tools, you can also bring your existing AI subscriptions and workflows to Salesforce development.</p>
+                <p>The key difference? Agentforce Vibes is built specifically for Salesforce and runs within the trust boundary, while BYOA approaches require you to manage authentication, context, and deployment separately.</p>
+                <div class="vibes-note">
+                    <p><strong>Want to try Agentforce Vibes?</strong> If you'd like to explore Agentforce Vibes — Salesforce's purpose-built vibe coding tool — you can spin up a <strong>Developer Edition trial org</strong> at <a href="https://developer.salesforce.com/free-trials#browse" target="_blank" rel="noopener noreferrer">developer.salesforce.com/free-trials</a>. Note that Developer Edition orgs don't include the pre-configured Learning Management app and workshop content from this guided trial. However, you can still explore Vibes' capabilities by building your own components from scratch or working with standard Salesforce objects.</p>
+                </div>
+                <p>Ready to deploy your changes to production? Click "Next" to continue to the Deploy Securely step.</p>
+            </div>
+        </div>
+    </div>
+</template>
+
+                <!-- Step 6: Deploy Securely -->
+                <template if:true={isStep5}>
+                    <div class="step-content">
+                        <div class="back-link" onclick={handleBackToWelcome}>
+                            <lightning-icon icon-name="utility:chevronleft" size="xx-small"></lightning-icon>
+                            <span>Back to Guide Home</span>
+                        </div>
+                        <div class="step-header">
+                            <lightning-icon icon-name="utility:upload" size="large" class="step-icon"></lightning-icon>
+                            <div class="step-header-text">
+                                <h2>Deploy Securely</h2>
+                                <p class="step-description">Promote your work through the development pipeline using the DX Inspector</p>
+                                <p class="step-meta"><em>Estimated time to complete</em>: 8 minutes</p>
+                            </div>
+                        </div>
+                        <div class="instruction-panel">
+                            <div class="intro-section">
+                                <p>Now that you have successfully built and verified your new app component using
+                                    your preferred AI tool, it's time to deploy your work from your Developer Sandbox to your production org.</p>
+                                <p>Instead of using the command line, we will use the DX Inspector to manage this process visually. This unified interface allows you to select and deploy both the structural changes and the configuration records needed to keep your application running smoothly.</p>
+                            </div>
+
+                            <!-- Metadata and Data Deployment -->
+                            <div class="em-section">
+                                <h3>Metadata and data deployment</h3>
+                                <p class="intro-text">Use these two deployment features to move both your app's structure
+                                    and configuration data between orgs:</p>
+                                <ul class="feature-list">
+                                    <li><strong>Metadata Deployment</strong> – Moves your app's metadata,
+                                        including modified Lightning Web Components, layouts, and Agentforce rules.</li>
+                                    <li><strong>Data Deployment</strong> – Moves the critical
+                                        configuration records (like the Learning Management course data) that your application
+                                        relies on to function.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Initialize DX Inspector -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">1</span>
+                                    <h3>Initialize DX Inspector</h3>
+                                </div>
+                                <p class="intro-text">Access the dedicated UI for managing your deployment payload.</p>
+                                <ol class="numbered-steps">
+                                    <li>From your Developer Sandbox, open <strong>DX Inspector</strong> by clicking the <strong>star and menu icon</strong> in the top left of your screen (you might be asked to accept the terms and proceed)</li>
+                                    <li>From the <strong>Change List</strong> tab, we can begin selecting the items.</li>
+                                </ol>
+                            </div>
+
+                            <!-- Select Metadata to Deploy -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">2</span>
+                                    <h3>Select Metadata to Deploy</h3>
+                                </div>
+                                <p class="intro-text">First, bundle the structural changes by selecting the specific Apex classes you want to deploy.</p>
+                                <ol class="numbered-steps">
+                                    <li>Click the <strong>Metadata</strong> tab, if not already selected</li>
+                                    <li>In the <strong>Change List</strong>, locate and select the checkbox next to <strong>LearningManagementController</strong> (ApexClass)</li>
+                                    <li>Select the checkbox next to <strong>LearningManagementControllerTest</strong> (ApexClass)</li>
+                                    <li>Click the <strong>Deploy Options…</strong> button</li>
+                                </ol>
+                                <div class="section-screenshot">
+                                    <img src={dxInspectorChangeListImage} alt="Select Metadata for Deployment" class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Connect to the Target Org -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">2</span>
+                                    <h3>Connect to the Target Org</h3>
+                                </div>
+                                <p class="intro-text">Connect to your production org as the deployment target.</p>
+                                <ol class="numbered-steps">
+                                    <li>In the <strong>Deploy Changes</strong> window, if you don't see your target org listed under "Existing Target Org," proceed to connect to a new org.</li>
+                                    <li>In the <strong>New Target Org</strong> section, enter an <strong>Environment Name</strong> (e.g., "production")</li>
+                                    <li>Select the radio button for <strong>Production</strong></li>
+                                    <li>Click the <strong>Connect</strong> button</li>
+                                    <li>You will be redirected to the Salesforce login window. Enter your production org credentials (username and password) and log in</li>
+                                    <li>If prompted with an "Allow Access?" screen, review the permissions and click <strong>Allow</strong> to grant access</li>
+                                    <li>Once connected, you'll return to the <strong>Deploy Changes</strong> window with your target org now listed</li>
+                                </ol>
+                                <div class="section-screenshot">
+                                    <img src={connectToOrgImage} alt="Connect to Target Org" class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Deploy the Changes -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">4</span>
+                                    <h3>Deploy the Changes</h3>
+                                </div>
+                                <p class="intro-text">Review the deployment preview and then deploy your selected metadata.</p>
+                                <ol class="numbered-steps">
+                                    <li>In the <strong>Deploy Changes</strong> window, select your connected target org from the <strong>Existing Target Org</strong> section</li>
+                                    <li>Click <strong>Next</strong> to proceed to the deployment preview</li>
+                                    <li>Review the <strong>Preview</strong> section which shows:
+                                        <ul class="feature-list">
+                                            <li><strong>Source Org</strong> (your current org) and <strong>Target Org</strong> (where you're deploying)</li>
+                                            <li>The metadata components being deployed (<strong>LearningManagementController</strong> and <strong>LearningManagementControllerTest</strong>)</li>
+                                        </ul>
+                                    </li>
+                                    <li>Verify the <strong>Metadata</strong> table shows the correct files with Operation type "modify"</li>
+                                    <li>Click the <strong>Deploy</strong> button to start the deployment</li>
+                                </ol>
+                                <div class="section-screenshot">
+                                    <img src={deployChangesPreviewImage} alt="Deploy Changes Preview" class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Monitor and Verify -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">5</span>
+                                    <h3>Monitor and Verify Deployment</h3>
+                                </div>
+                                <p class="intro-text">Confirm that the deployment completed successfully in your production org.</p>
+                                <ol class="numbered-steps">
+                                    <li>After clicking Deploy, the deployment process will begin. Wait for it to complete</li>
+                                    <li>Navigate to the target org and go to <strong>Setup</strong></li>
+                                    <li>In <strong>Setup</strong>, search for and open <strong>Deployment Status</strong></li>
+                                    <li>You will see the deployment listed with status <strong>"Deployment Succeeded"</strong></li>
+                                    <li>Verify that both LearningManagementController and LearningManagementControllerTest are now available in the production org</li>
+                                </ol>
+                                <div class="section-screenshot">
+                                    <img src={deploymentStatusImage} alt="Deployment Status" class="screenshot-image" />
+                                </div>
+                            </div>
+
+                            <!-- Data Deployment Note -->
+                            <p class="intro-text" style="margin-top: 1.5rem;">While this guide focused on moving structural metadata, the DX Inspector also supports <strong>Data Deployment</strong>. This allows you to migrate the actual configuration records, like course data and relationships, required for your app to function. To explore how to preserve record relationships and map external IDs during a data migration, check out the official Salesforce <a href="https://help.salesforce.com/s/articleView?id=platform.deploy_metadata_and_data_to_target_org.htm&amp;language=en_US&amp;type=5" target="_blank" rel="noopener noreferrer">documentation</a> and try it for yourself!</p>
+
+                            <!-- Wrap Up -->
+                            <div class="action-box highlight">
+                                <div class="action-box-header">
+                                    <lightning-icon icon-name="utility:touch_action" size="small"></lightning-icon>
+                                    <h4>Wrap-Up</h4>
+                                </div>
+                                <p>Simple deployments made easier with DX Inspector help every Salesforce builder work faster without switching between tools.</p>
+                                <p>But we all know projects aren't done after deployment! Monitoring and observability are important to ensure your org and data are secure, and that your deployments perform as intended. Click "Next" to learn how Salesforce Shield protects your data.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Step 7: Protect Your Data -->
+                <template if:true={isStep6}>
+                    <div class="step-content">
+                        <div class="back-link" onclick={handleBackToWelcome}>
+                            <lightning-icon icon-name="utility:chevronleft" size="xx-small"></lightning-icon>
+                            <span>Back to Guide Home</span>
+                        </div>
+                        <div class="step-header">
+                            <lightning-icon icon-name="standard:insights" size="large"
+                                class="step-icon"></lightning-icon>
+                            <div class="step-header-text">
+                                <h2>Protect Your Data</h2>
+                                <p class="step-description">Get comprehensive security for critical data, across your apps and agents</p>
+                                <p class="step-meta"><em>Estimated time to complete</em>: 8 minutes</p>
+                            </div>
+                        </div>
+                        <div class="instruction-panel">
+                            <div class="intro-section">
+                                <p>As any IT, development, or security professional knows, no project ends with deployment. Maintaining 24/7 data, agent, and application security is essential. Let's get to know how Salesforce Shield keeps sensitive data secure, supporting compliance and regulatory requirements.</p>
+                                <p>Shield comprises four products:</p>
+                                <ul class="feature-list" style="margin-left: 2rem;">
+                                    <li><strong>Event Monitoring:</strong> Prevent, mitigate, and monitor threats to sensitive data.</li>
+                                    <li><strong>Data Detect:</strong> Discover sensitive data in your org and minimize exposure.</li>
+                                    <li><strong>Platform Encryption:</strong> Encrypt sensitive data at rest, while preserving business functionality.</li>
+                                    <li><strong>Field Audit Trail:</strong> Track changes to sensitive data at scale.</li>
+                                </ul>
+                                <p>We'll get to know Shield inside the brand new unified Shield experience.</p>
+                            </div>
+
+                            <div class="preconfig-notice">
+                                <p>Before you explore the Event Monitoring Analytics App dashboards,
+                                    follow the steps below to make sure your org is configured to generate, store, and
+                                    stream some sample event data. Note that while we're currently in a pre-production
+                                    org, customers use Event Monitoring across all of their production and sandbox orgs
+                                    for maximum visibility!</p>
+                            </div>
+
+                            <!-- Pre-Configuration Steps -->
+                            <div class="em-preconfig-section">
+                                <div class="em-section-header">
+                                    <span class="em-icon">🔷</span>
+                                    <h3>Pre-Configuration Steps</h3>
+                                </div>
+
+                                <!-- Generate Sample Test Events -->
+                                <div class="config-section">
+                                    <div class="config-header">
+                                        <span class="config-number circle-only">●</span>
+                                        <h3>Generate Sample Test Events (Optional but Recommended)</h3>
+                                    </div>
+                                    <p>To populate anomaly dashboards with meaningful data:</p>
+                                    <ol class="numbered-steps">
+                                        <li>From <strong>App Launcher</strong> (the menu to the left of Learning Management in the nav bar), search <strong>Test Threat Detection Events</strong></li>
+                                        <li>Select an <strong>Event Type</strong> (e.g., Credential Stuffing, Session
+                                            Hijacking, Guest User Anomaly, Report Anomaly, API Anomaly, etc.)</li>
+                                        <li>Select <strong>Auto-Generated Event</strong> or <strong>Customized
+                                                Event</strong></li>
+                                        <li>Click <strong>Generate Test Event</strong></li>
+                                    </ol>
+                                    <p class="preconfig-note">These test events will appear in the Threat Detection
+                                        Event list and show up in the dashboards for demo and validation</p>
+                                    <div class="section-screenshot">
+                                        <img src={testThreatEventsImage} alt="Test Threat Detection Events"
+                                            class="screenshot-image" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Now Explore Dashboards -->
+                            <div class="explore-dashboards-banner">
+                                <div>
+                                    <h3>Now Explore the Dashboards in Analytics Studio</h3>
+                                    <p>You've completed the configuration steps and are ready to check out Event
+                                        Monitoring Analytics!</p>
+                                </div>
+                            </div>
+
+                            <!-- Step 1: Navigate to the Shield App Homepage -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">1</span>
+                                    <h3>Navigate to the Shield App Homepage</h3>
+                                </div>
+                                <ol class="numbered-steps">
+                                    <li>From <strong>App Launcher</strong> (the menu to the left of Learning Management in the nav bar) search for and open the <strong>Shield</strong> app.</li>
+                                </ol>
+                                <p>The new Shield app simplifies access to all four Shield products, and brings a guided setup experience right to the homepage to make securing your org easier than ever.</p>
+                                <p>We'll start with Event Monitoring. Click on the <strong>Event Monitoring</strong> tab to open the application.</p>
+                                <p>Event Monitoring lets you monitor user and agent activity, mitigate potential security threats, and drive adoption and performance across your org.</p>
+                                <p>CEE needs to be able to track and visualize events in their org with easy-to-use dashboards. The Event Monitoring: Event Log Objects Analytics pre-built dashboards give you immediate visibility into what's happening inside your Salesforce org.</p>
+                                <p>In this step, let's walk through three key dashboards and understand what each one helps you monitor.</p>
+                                <p>Before you explore the Event Monitoring dashboards, follow the steps above to make sure your org is configured to generate, store, and stream some sample event data.</p>
+                            </div>
+
+                            <!-- Step 2: Open the App -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">2</span>
+                                    <h3>Open the EM: Event Log Objects Analytics App</h3>
+                                </div>
+                                <ol class="numbered-steps">
+                                    <li>From <strong>App Launcher</strong>, search for <strong>Analytics
+                                            Studio</strong>.</li>
+                                    <li>In the left navigation pane, click <strong>Browse</strong>.</li>
+                                    <li>Open the <strong>EM: Event Log Objects Analytics</strong> App.</li>
+                                    <li>From the list of dashboards, select <strong>Threats &amp; Access
+                                            (Beta)</strong>.</li>
+                                </ol>
+                            </div>
+
+                            <!-- Dashboard 1: Threats & Access -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">2</span>
+                                    <h3>Dashboard 1: Threats &amp; Access (Beta)</h3>
+                                </div>
+                                <p>This dashboard helps you quickly detect suspicious behavior, access anomalies, and
+                                    potential security risks across your org.</p>
+
+                                <div class="section-screenshot">
+                                    <img src={threatsImage} alt="Threats and Access Dashboard"
+                                        class="screenshot-image" />
+                                </div>
+
+                                <h4 class="em-subheading">What it shows</h4>
+
+                                <div class="em-feature-grid">
+                                    <div class="em-feature-item">
+                                        <h5>Threat Indicators</h5>
+                                        <p>Identify anomalies such as credential stuffing, session hijacking, guest user
+                                            anomalies, API anomalies, and more. The screenshot shows real-time flags
+                                            like Session Hijacking (2) and API Anomalies (1).</p>
+                                    </div>
+                                    <div class="em-feature-item">
+                                        <h5>High-Risk Activities</h5>
+                                        <p>See activities that may require immediate investigation—anonymous Apex
+                                            execution, guest user requests, inactive logins, package installs, and
+                                            policy violations.</p>
+                                    </div>
+                                    <div class="em-feature-item">
+                                        <h5>Data Exfiltration Signals</h5>
+                                        <p>Monitor API call volume, file downloads, export activity, and daily API
+                                            patterns to identify possible data leakage attempts.</p>
+                                    </div>
+                                    <div class="em-feature-item">
+                                        <h5>Authentication Patterns</h5>
+                                        <p>Review login activity by day, user, IP, app, and location. The dashboard
+                                            highlights login spikes, zero failed logins, distinct login keys, and
+                                            Login-As events.</p>
+                                    </div>
+                                    <div class="em-feature-item">
+                                        <h5>Geo and Application Insights</h5>
+                                        <p>Analyze login activity by country, application, and IP address to understand
+                                            where your users are—and where unexpected access may be coming from.</p>
+                                    </div>
+                                </div>
+
+                                <div class="em-why-matters">
+                                    <h4>Why it matters</h4>
+                                    <p>Keeping your org and data secure is a critical part of building your Agentic Enterprise! This dashboard gives your admins and security teams a single pane of glass to understand risk, detect unusual spikes, and react immediately to abnormal authentication or data access.</p>
+                                </div>
+                            </div>
+
+                            <!-- Dashboard 2: Performance & Health -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">4</span>
+                                    <h3>Dashboard 2: Performance &amp; Health (Beta)</h3>
+                                </div>
+                                <p>Next, open the report name dropdown menu at the top and choose <strong>Performance and Health (Beta)</strong>.</p>
+
+                                <div class="section-screenshot">
+                                    <img src={performanceImage} alt="Performance and Health Dashboard"
+                                        class="screenshot-image" />
+                                </div>
+
+                                <h4 class="em-subheading">What it shows</h4>
+
+                                <div class="em-feature-grid">
+                                    <div class="em-feature-item">
+                                        <h5>Top Performance Issues</h5>
+                                        <p>Identify your slowest experience areas: Slowest Lightning Pages (e.g.,
+                                            ManagementSetupPage, homeLanding), Slowest REST API calls
+                                            (PermissionSetAssignment, Student__c, Course__c), Slowest Apex classes and
+                                            flows.</p>
+                                    </div>
+                                    <div class="em-feature-item">
+                                        <h5>Org Health Indicators</h5>
+                                        <p>Understand how your org is behaving as a whole: Total logins per day, Failed
+                                            logins, Failed API calls, Apex errors, Callout failures.</p>
+                                    </div>
+                                    <div class="em-feature-item">
+                                        <h5>API Diagnostics</h5>
+                                        <p>Track API call volume (REST vs SOAP), Error spikes, Run-time trends across
+                                            endpoints.</p>
+                                    </div>
+                                </div>
+
+                                <div class="em-why-matters">
+                                    <h4>Why it matters</h4>
+                                    <p>Event Monitoring helps you track more than just security events. Use this dashboard to improve application performance, troubleshoot bottlenecks, and optimize your app experience. It's your go-to place to understand what's slowing users and agents down and where your org may need tuning.</p>
+                                </div>
+                            </div>
+
+                            <!-- Dashboard 3: Adoption & User Journeys -->
+                            <div class="config-section">
+                                <div class="config-header">
+                                    <span class="config-number">5</span>
+                                    <h3>Dashboard 3: Adoption &amp; User Journeys (Beta)</h3>
+                                </div>
+                                <p>Last but not least, from the same report name dropdown menu, choose <strong>Adoption and User Journeys (Beta)</strong>.</p>
+
+                                <div class="section-screenshot">
+                                    <img src={userActivityImage} alt="Adoption and User Journeys Dashboard"
+                                        class="screenshot-image" />
+                                </div>
+
+                                <h4 class="em-subheading">What it shows</h4>
+
+                                <div class="em-feature-grid">
+                                    <div class="em-feature-item">
+                                        <h5>User Activity Overview</h5>
+                                        <p>Understand how users engage with your Salesforce app: Total users, sessions,
+                                            pageviews, and unique pages visited. A timeline of how activity changes
+                                            across days.</p>
+                                    </div>
+                                    <div class="em-feature-item">
+                                        <h5>App Usage Breakdown</h5>
+                                        <p>Visualize the top apps your users interact with (AgentforceStudio, Connected
+                                            Executive Education, LightningSales).</p>
+                                    </div>
+                                    <div class="em-feature-item">
+                                        <h5>Page Object Analysis</h5>
+                                        <p>See the most frequently visited page types such as: Course__c, Enrollment__c,
+                                            Learning_Management__c, Free_Trial_Guide.</p>
+                                    </div>
+                                    <div class="em-feature-item">
+                                        <h5>Top Geolocations</h5>
+                                        <p>Understand where your traffic originates (like Texas or Virginia, for a US-based company).</p>
+                                    </div>
+                                    <div class="em-feature-item">
+                                        <h5>User-Object Interaction Mapping</h5>
+                                        <p>Bubble charts illustrate how many users viewed which objects and the volume
+                                            of records accessed.</p>
+                                    </div>
+                                </div>
+
+                                <div class="em-why-matters">
+                                    <h4>Why it matters</h4>
+                                    <p>This dashboard delivers actionable insights that help product, admin, and UX teams understand user adoption, optimize the user journey, and maximize engagement across your Salesforce application.</p>
+                                </div>
+                            </div>
+
+                            <!-- Wrap Up -->
+                            <div class="action-box highlight">
+                                <div class="action-box-header">
+                                    <lightning-icon icon-name="utility:touch_action" size="small"></lightning-icon>
+                                    <h4>Wrap-Up</h4>
+                                </div>
+                                <p>Data security and observability are a key part of any enterprise IT strategy, and it's a crucial part of building and governing your Agentic Enterprise with confidence.</p>
+                                <p>Shield offers comprehensive security for critical data, and Event Monitoring lets you monitor detailed performance, security, and usage data across all your Salesforce apps.</p>
+                                <p>We're reaching the end of your Free Trial experience. Click <strong>"Next"</strong> to wrap things up.</p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Step 8: Summary -->
+                <template if:true={isStep7}>
+                    <div class="step-content">
+                        <div class="back-link" onclick={handleBackToWelcome}>
+                            <lightning-icon icon-name="utility:chevronleft" size="xx-small"></lightning-icon>
+                            <span>Back to Guide Home</span>
+                        </div>
+                        <div class="step-header">
+                            <lightning-icon icon-name="utility:summary" size="large" class="step-icon"></lightning-icon>
+                            <div class="step-header-text">
+                                <h2>Summary and Next Steps</h2>
+                                <p class="step-description">Review what you've accomplished in this free trial and find out where to learn more.</p>
+                            </div>
+                        </div>
+                        <div class="instruction-panel">
+                            <div class="intro-section summary-congrats">
+                                <p>Congratulations! You've completed your free trial journey in the Learning Management app. Let's take a moment to review what you've accomplished.</p>
+                            </div>
+
+                            <div class="summary-section">
+                                <h3>What You've Learned</h3>
+                                <ul class="summary-list">
+                                    <li>You navigated and explored the custom Learning Management app from our fictitious company, Connected Executive Education</li>
+                                    <li>You configured Agentforce with custom topics and actions in Agentforce Builder</li>
+                                    <li>You tested Agentforce with AI-generated test suites in Agentforce Testing Center</li>
+                                    <li>You customized the application UI with your preferred AI tool</li>
+                                    <li>You deployed those changes securely using metadata tools from the DX Inspector</li>
+                                    <li>You monitored events and org activity after deployment to keep your org and data secure</li>
+                                </ul>
+                            </div>
+
+                            <h3 class="what-happens-next-heading">What Happens Next?</h3>
+
+                            <div class="action-box highlight">
+                                <div class="action-box-header">
+                                    <lightning-icon icon-name="utility:knowledge_base" size="small"></lightning-icon>
+                                    <h4>Continue Learning</h4>
+                                </div>
+                                <p>Visit <a href="https://www.salesforce.com/platform" target="_blank" rel="noopener noreferrer">salesforce.com/platform</a> and <a href="https://www.salesforce.com/headless" target="_blank" rel="noopener noreferrer">salesforce.com/headless</a> to read more, watch demos, and find more resources.</p>
+                            </div>
+
+                            <div class="action-box highlight">
+                                <div class="action-box-header">
+                                    <lightning-icon icon-name="utility:call" size="small"></lightning-icon>
+                                    <h4>Speak with Our Sales Team</h4>
+                                </div>
+                                <p>Click here to submit a <a href="https://www.salesforce.com/form/contact/contactme/" target="_blank" rel="noopener noreferrer"><strong>Contact Me</strong></a> request, and a Salesforce specialist will reach out.</p>
+                            </div>
+
+                            <div class="action-box highlight">
+                                <div class="action-box-header">
+                                    <lightning-icon icon-name="utility:video" size="small"></lightning-icon>
+                                    <h4>Get More Demos</h4>
+                                </div>
+                                <p>If you're interested in more development and security tools on Salesforce, check out these product demos.</p>
+                                <ul class="demo-list">
+                                    <li><a href="https://www.salesforce.com/form/demo/platform-shield-demo/?d=pb" target="_blank" rel="noopener noreferrer">Salesforce Shield</a></li>
+                                    <li><a href="https://www.salesforce.com/form/demo/platform-security-center-demo-form/?d=pb" target="_blank" rel="noopener noreferrer">Security Center</a></li>
+                                    <li><a href="https://www.salesforce.com/form/demo/platform-privacy-center-demo-form/?d=pb" target="_blank" rel="noopener noreferrer">Privacy Center</a></li>
+                                    <li><a href="https://www.salesforce.com/form/platform/data-mask-seed-demo/?d=pb" target="_blank" rel="noopener noreferrer">Data Mask &amp; Seed</a></li>
+                                    <li><a href="https://www.salesforce.com/form/platform/backup-recover-demo/?d=pb" target="_blank" rel="noopener noreferrer">Backup &amp; Recover</a></li>
+                                    <li><a href="https://www.salesforce.com/form/demo/sandboxes-demo/?d=pb" target="_blank" rel="noopener noreferrer">Salesforce Sandboxes</a></li>
+                                    <li><a href="https://www.salesforce.com/form/platform/scale-test-demo/?d=pb" target="_blank" rel="noopener noreferrer">Scale Test</a></li>
+                                    <li><a href="https://www.salesforce.com/agentforce/developers/vibe-coding/" target="_blank" rel="noopener noreferrer">Agentforce Vibes</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="action-box highlight">
+                                <div class="action-box-header">
+                                    <lightning-icon icon-name="utility:trailhead" size="small"></lightning-icon>
+                                    <h4>Continue Learning on Trailhead</h4>
+                                </div>
+                                <p>We recommend the <a href="https://trailhead.salesforce.com/content/learn/modules/starting_force_com?trailmix_creator_id=akshaypoddar&trailmix_slug=salesforce-platform-basics" target="_blank" rel="noopener noreferrer">Platform Basics trail</a> to deepen your knowledge of the tools you've explored in this trial.</p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation-section">
+                <template if:false={isWelcome}>
+                    <button class="nav-btn nav-btn-neutral" onclick={handlePrevious}>
+                        <lightning-icon icon-name="utility:chevronleft" size="x-small"></lightning-icon>
+                        <span>Previous</span>
+                    </button>
+                </template>
+                <template if:true={isWelcome}>
+                    <div></div>
+                </template>
+                <template if:false={isStep7}>
+                    <button class="nav-btn nav-btn-brand" onclick={handleNext}>
+                        <span>{nextButtonLabel}</span>
+                    </button>
+                </template>
+                <template if:true={isStep7}>
+                    <button class="nav-btn nav-btn-brand" onclick={handleRestart}>
+                        <lightning-icon icon-name="utility:refresh" size="x-small"></lightning-icon>
+                        <span>Start Over</span>
+                    </button>
+                </template>
+            </div>
+        </template>
+
+        <!-- Provisioning Modal: single overlay to avoid white strip from SLDS layout -->
+        <template if:true={showProvisioningModal}>
+            <div class="provisioning-overlay" role="dialog" aria-modal="true" onclick={handleOverlayClick}>
+                <div class="provisioning-dialog" role="document" onclick={stopPropagation}>
+                    <div class="modal-content-wrapper">
+                        <template if:true={provisioningPending}>
+                            <lightning-spinner alternative-text="Requesting provisioning" size="medium"></lightning-spinner>
+                            <h2 class="modal-title">Requesting provisioning…</h2>
+                            <p class="modal-message">Contacting the provisioner. This may take a few seconds.</p>
+                        </template>
+                        <template if:false={provisioningPending}>
+                            <template if:true={provisioningError}>
+                                <lightning-icon icon-name="utility:error" size="large" class="modal-icon modal-icon-error"></lightning-icon>
+                                <h2 class="modal-title">Provisioning Request Issue</h2>
+                                <p class="modal-message modal-message-error">{provisioningError}</p>
+                                <p class="modal-note">The provisioner may require a browser to complete setup. Open it in a new tab to create your target org and receive credentials by email.</p>
+                                <button type="button" class="nav-btn nav-btn-brand modal-open-tab-btn" onclick={openProvisionerInNewTab}>
+                                    <lightning-icon icon-name="utility:new_window" size="x-small"></lightning-icon>
+                                    <span>Open provisioner in new tab</span>
+                                </button>
+                            </template>
+                            <template if:false={provisioningError}>
+                                <lightning-icon icon-name="utility:email" size="large" class="modal-icon"></lightning-icon>
+                                <h2 class="modal-title">Your Org is Being Provisioned</h2>
+                                <p class="modal-message">Your new target org is being created. You will receive the login credentials at your registered email address shortly.</p>
+                                <p class="modal-note">This process typically takes 2-3 minutes.</p>
+                            </template>
+                        </template>
+                        <button class="nav-btn nav-btn-brand modal-close-btn" onclick={closeProvisioningModal}>
+                            <span>Got it</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

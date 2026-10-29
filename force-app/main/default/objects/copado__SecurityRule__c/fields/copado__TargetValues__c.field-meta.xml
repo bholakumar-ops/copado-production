@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado__TargetValues__c</fullName>
+    <deprecated>false</deprecated>
+    <description>For Metadata rules: comma-separated metadata type API names. Blank means all metadata types.</description>
+    <inlineHelpText>For Metadata rules, enter metadata type API names separated by commas (e.g. ApexClass, Profile). Leave blank to apply to all metadata types.</inlineHelpText>
+    <label>Target Values</label>
+    <length>32768</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

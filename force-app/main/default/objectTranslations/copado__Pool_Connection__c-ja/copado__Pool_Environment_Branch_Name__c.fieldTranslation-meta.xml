@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>この環境プールに対応する Git ブランチ名です。形式は pool/TargetEnvironmentName/PoolEnvironmentName となります。例：pool/ScrumQA/QA1</help>
+    <label><!-- Pool Environment Branch Name --></label>
+    <name>copado__Pool_Environment_Branch_Name__c</name>
+</CustomFieldTranslation>

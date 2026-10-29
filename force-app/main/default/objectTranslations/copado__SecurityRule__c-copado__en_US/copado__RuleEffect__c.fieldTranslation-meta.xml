@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Define if this rule allows or prevents an action --></help>
+    <label><!-- Rule Effect --></label>
+    <name>copado__RuleEffect__c</name>
+    <picklistValues>
+        <masterLabel>Allow</masterLabel>
+        <translation><!-- Allow --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Deny</masterLabel>
+        <translation><!-- Deny --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

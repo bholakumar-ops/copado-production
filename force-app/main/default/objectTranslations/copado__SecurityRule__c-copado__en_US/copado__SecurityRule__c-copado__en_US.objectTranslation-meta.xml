@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Pipeline Governance Rule</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Pipeline Governance Rules</value>
+    </caseValues>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Select exactly one subject: Apply to All Users, User, or Persona. --></errorMessage>
+        <name>copado__EnforceSingleSubject</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Target Values must be blank when Type is Environment. Use the Environment field instead. --></errorMessage>
+        <name>copado__Environment_Rejects_Target_Values</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Environment is required when Type is Environment. --></errorMessage>
+        <name>copado__Environment_Requires_Target</name>
+    </validationRules>
+</CustomObjectTranslation>

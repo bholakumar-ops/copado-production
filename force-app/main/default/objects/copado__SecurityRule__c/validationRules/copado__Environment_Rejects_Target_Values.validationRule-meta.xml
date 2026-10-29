@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copado__Environment_Rejects_Target_Values</fullName>
+    <active>true</active>
+    <description>Environment-type rules must not specify metadata Target Values; use Environment instead.</description>
+    <errorConditionFormula>AND(
+  ISPICKVAL(copado__Type__c, &quot;Environment&quot;),
+  NOT(ISBLANK(copado__TargetValues__c))
+)</errorConditionFormula>
+    <errorDisplayField>copado__TargetValues__c</errorDisplayField>
+    <errorMessage>Target Values must be blank when Type is Environment. Use the Environment field instead.</errorMessage>
+</ValidationRule>
