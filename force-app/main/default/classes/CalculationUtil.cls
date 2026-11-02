@@ -4,17 +4,13 @@
  */
 public with sharing class CalculationUtil {
 
+    private static final Integer SCALE = 2;
+    private static final Decimal HUNDRED = 100;
+
     /**
      * @description Thrown when an input value is invalid.
      */
     public class CalculationException extends Exception {
-    }
-
-    private static final Integer SCALE = 2;
-    private static final Decimal HUNDRED = 100;
-
-    private CalculationUtil() {
-        // Utility class, do not instantiate.
     }
 
     /**
